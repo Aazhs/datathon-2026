@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Datathon 2026</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">📝 Registration</h1>
+            <a href="/" class="back-link">← Back to Home</a>
+        </header>
+
+        {% if success %}
+        <div class="alert alert-success">
+            ✅ {{ message }}
+        </div>
+        {% elif error %}
+        <div class="alert alert-error">
+            ❌ {{ message }}
+        </div>
+        {% endif %}
+
+        <section class="form-section">
+            <div class="form-container">
+                <h2>Join Datathon 2026</h2>
+                <p class="form-subtitle">Fill out the form below to secure your spot</p>
+                
+                <form method="POST" action="/register" class="registration-form">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            required 
+                            placeholder="Enter your full name"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required 
+                            placeholder="your.email@example.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            required 
+                            placeholder="+1 (555) 123-4567"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="university">University/Organization *</label>
+                        <input 
+                            type="text" 
+                            id="university" 
+                            name="university" 
+                            required 
+                            placeholder="Your university or company"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_name">Team Name (Optional)</label>
+                        <input 
+                            type="text" 
+                            id="team_name" 
+                            name="team_name" 
+                            placeholder="Leave blank if participating solo"
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        Complete Registration
+                    </button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Questions? Contact us at <a href="mailto:info@datathon2026.com">info@datathon2026.com</a></p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 Datathon. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
