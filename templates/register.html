@@ -5,98 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Datathon 2026</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="title">📝 Registration</h1>
-            <a href="/" class="back-link">← Back to Home</a>
-        </header>
+    <!-- Registration Section -->
+    <section class="registration" id="registration">
+        <div class="registration-container">
+            <a href="/" class="back-link">&larr; Back to the Upside Down</a>
 
-        {% if success %}
-        <div class="alert alert-success">
-            ✅ {{ message }}
-        </div>
-        {% elif error %}
-        <div class="alert alert-error">
-            ❌ {{ message }}
-        </div>
-        {% endif %}
+            <h2 class="registration-title">Join the Resistance</h2>
+            <p class="registration-subtitle">Register for Datathon 2026</p>
 
-        <section class="form-section">
-            <div class="form-container">
-                <h2>Join Datathon 2026</h2>
-                <p class="form-subtitle">Fill out the form below to secure your spot</p>
-                
-                <form method="POST" action="/register" class="registration-form">
-                    <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            required 
-                            placeholder="Enter your full name"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            required 
-                            placeholder="your.email@example.com"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input 
-                            type="tel" 
-                            id="phone" 
-                            name="phone" 
-                            required 
-                            placeholder="+1 (555) 123-4567"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="university">University/Organization *</label>
-                        <input 
-                            type="text" 
-                            id="university" 
-                            name="university" 
-                            required 
-                            placeholder="Your university or company"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="team_name">Team Name (Optional)</label>
-                        <input 
-                            type="text" 
-                            id="team_name" 
-                            name="team_name" 
-                            placeholder="Leave blank if participating solo"
-                        >
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-full">
-                        Complete Registration
-                    </button>
-                </form>
-
-                <div class="form-footer">
-                    <p>Questions? Contact us at <a href="mailto:info@datathon2026.com">info@datathon2026.com</a></p>
-                </div>
+            {% if success %}
+            <div class="success-message show">
+                <h3>Welcome, Agent</h3>
+                <p>{{ message }}</p>
             </div>
-        </section>
+            {% elif error %}
+            <div class="error-message show">
+                <h3>Warning</h3>
+                <p>{{ message }}</p>
+            </div>
+            {% endif %}
 
-        <footer class="footer">
-            <p>&copy; 2026 Datathon. All rights reserved.</p>
-        </footer>
-    </div>
+            <!-- Glowing form with dark background -->
+            <form method="POST" action="/register" class="registration-form" id="registrationForm">
+                <!-- Full Name Field -->
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-input" 
+                        placeholder="Enter your full name"
+                        required
+                    >
+                    <div class="input-glow"></div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="your.email@example.com"
+                        required
+                    >
+                    <div class="input-glow"></div>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="form-input" 
+                        placeholder="+1 (555) 123-4567"
+                        required
+                    >
+                    <div class="input-glow"></div>
+                </div>
+
+                <!-- University Field -->
+                <div class="form-group">
+                    <label for="university" class="form-label">University / Organization</label>
+                    <input 
+                        type="text" 
+                        id="university" 
+                        name="university" 
+                        class="form-input" 
+                        placeholder="Your university or company"
+                        required
+                    >
+                    <div class="input-glow"></div>
+                </div>
+
+                <!-- Team Name Field -->
+                <div class="form-group">
+                    <label for="team_name" class="form-label">Team Name (Optional)</label>
+                    <input 
+                        type="text" 
+                        id="team_name" 
+                        name="team_name" 
+                        class="form-input" 
+                        placeholder="Leave blank if participating solo"
+                    >
+                    <div class="input-glow"></div>
+                </div>
+
+                <!-- Submit Button with glow effect -->
+                <button type="submit" class="submit-button">
+                    <span>Breach the Gate</span>
+                    <div class="button-glow"></div>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>Questions? Contact us at <a href="mailto:info@datathon2026.com">info@datathon2026.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Datathon 2026 &bull; Where data meets mystery</p>
+        <p class="footer-subtitle">&copy; 2026 Data Resistance <br> made with &#10084; by GirlScript fy & Darshan</p>
+    </footer>
+
+    <script>
+        // Real-time input validation with glow feedback
+        const formInputs = document.querySelectorAll('.form-input');
+        formInputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                if (input.value.trim() === '' && input.required) {
+                    input.style.borderColor = 'rgba(255, 100, 100, 0.5)';
+                } else {
+                    input.style.borderColor = 'rgba(255, 0, 85, 0.3)';
+                }
+            });
+            input.addEventListener('input', () => {
+                if (input.value.trim() !== '') {
+                    input.style.borderColor = 'rgba(255, 0, 85, 0.5)';
+                }
+            });
+        });
+
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
 </body>
 </html>

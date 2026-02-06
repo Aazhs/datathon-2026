@@ -3,79 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datathon 2026 - Join the Challenge</title>
+    <title>Datathon 2026 - Enter the Upside Down</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="title">🚀 Datathon 2026</h1>
-            <p class="subtitle">Where Data Meets Innovation</p>
-        </header>
+    <!-- Hero Section with full-screen animated GIF background -->
+    <section class="hero" id="hero">
+        <!-- Dark overlay for text readability over GIF -->
+        <div class="hero-overlay"></div>
 
-        <section class="hero">
-            <div class="hero-content">
-                <h2>Join the Ultimate Data Challenge</h2>
-                <p class="hero-text">
-                    Compete with the brightest minds, solve real-world problems, 
-                    and showcase your data science skills at Datathon 2026.
-                </p>
-                <div class="event-details">
-                    <div class="detail-item">
-                        <span class="icon">📅</span>
-                        <div>
-                            <strong>Date</strong>
-                            <p>March 15-17, 2026</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <div>
-                            <strong>Location</strong>
-                            <p>Virtual & In-Person</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">🏆</span>
-                        <div>
-                            <strong>Prizes</strong>
-                            <p>$50,000+ in rewards</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="/register" class="btn btn-primary">Register Now</a>
-            </div>
-        </section>
+        <!-- Hero Content Container -->
+        <div class="hero-content">
+            <!-- Stranger Things style glowing title -->
+            <h1 class="hero-title">DATATHON 2026</h1>
 
-        <section class="features">
-            <h3>Why Participate?</h3>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">💡</div>
-                    <h4>Learn & Grow</h4>
-                    <p>Enhance your data science skills with hands-on challenges</p>
+            <!-- Subtitle -->
+            <p class="hero-subtitle">Enter the Upside Down of Data</p>
+
+            <!-- Event Details -->
+            <div class="event-details">
+                <div class="detail-item">
+                    <span class="detail-icon">&#9776;</span>
+                    <div>
+                        <strong>Date</strong>
+                        <p>March 15-17, 2026</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h4>Network</h4>
-                    <p>Connect with industry leaders and fellow data enthusiasts</p>
+                <div class="detail-item">
+                    <span class="detail-icon">&#9673;</span>
+                    <div>
+                        <strong>Location</strong>
+                        <p>Virtual & In-Person</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎁</div>
-                    <h4>Win Prizes</h4>
-                    <p>Compete for amazing prizes and recognition</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h4>Career Boost</h4>
-                    <p>Get noticed by top tech companies and recruiters</p>
+                <div class="detail-item">
+                    <span class="detail-icon">&#9733;</span>
+                    <div>
+                        <strong>Prizes</strong>
+                        <p>$50,000+ in rewards</p>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <footer class="footer">
-            <p>&copy; 2026 Datathon. All rights reserved.</p>
-        </footer>
-    </div>
+            <!-- CTA Button with glow effect -->
+            <a href="/register" class="cta-button">Open the Gate</a>
+        </div>
+
+        <!-- Decorative neon lines -->
+        <div class="neon-decoration top"></div>
+        <div class="neon-decoration bottom"></div>
+    </section>
+
+    <!-- Features / Why Participate Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Why Join the Resistance?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-glow">&#9889;</div>
+                <h4>Learn & Grow</h4>
+                <p>Enhance your data science skills with hands-on challenges</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-glow">&#9741;</div>
+                <h4>Network</h4>
+                <p>Connect with industry leaders and fellow data enthusiasts</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-glow">&#9734;</div>
+                <h4>Win Prizes</h4>
+                <p>Compete for amazing prizes and recognition</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-glow">&#9650;</div>
+                <h4>Career Boost</h4>
+                <p>Get noticed by top tech companies and recruiters</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Datathon 2026 &bull; Where data meets mystery</p>
+        <p class="footer-subtitle">&copy; 2026 Data Resistance <br> made with &#10084; by GirlScript fy & Darshan</p>
+    </footer>
+
+    <script>
+        // Smooth scroll & page load animation
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
 </body>
 </html>
