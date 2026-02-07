@@ -1,12 +1,12 @@
 # Datathon 2026 Registration Website
 
-A simple hackathon registration website built with FastAPI.
+A simple hackathon registration website built with FastAPI and Supabase.
 
 ## Features
 
 - 🎨 Beautiful landing page with event details
 - 📝 Registration form with validation
-- 💾 Stores registrations in Supabase (optional) or locally (JSONL fallback)
+- 💾 Data storage using Supabase
 - 🚀 Fast and responsive design
 
 ## Setup Instructions
@@ -27,9 +27,25 @@ pip install -r requirements.txt
 - macOS/Linux: `python3.13 -m venv venv`
 - Windows: `py -3.13 -m venv venv`
 
-### 2. Configure Environment
+### 2. Configure Supabase
 
-Copy `.env.example` to `.env` to customize local settings:
+1. Create a Supabase account at [supabase.com](https://supabase.com)
+2. Create a new project
+3. Create a table called `registrations` with the following schema:
+
+```sql
+CREATE TABLE registrations (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  university TEXT NOT NULL,
+  team_name TEXT,
+  registered_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+4. Copy `.env.example` to `.env` and add your Supabase credentials:
 
 **macOS/Linux:**
 ```bash
@@ -46,34 +62,11 @@ copy .env.example .env
 Copy-Item .env.example .env
 ```
 
-Edit `.env`:
+Edit `.env` and add:
+- `SUPABASE_URL`: Your project URL (found in Project Settings > API)
+- `SUPABASE_KEY`: Your anon/public key (found in Project Settings > API)
 
-- Local fallback storage:
-    - `REGISTRATIONS_PATH`: where to store registrations on disk (default: `data/registrations.jsonl`)
-
-- Supabase (optional, enables cloud storage):
-    - `SUPABASE_URL`
-    - `SUPABASE_ANON_KEY` (recommended for public forms with RLS policy)
-    - Or `SUPABASE_SERVICE_ROLE_KEY` (server-side only, keep secret)
-
-When Supabase is configured, the app writes to the Supabase table `public.registrations`.
-When Supabase is not configured, the app appends to `data/registrations.jsonl`.
-
-Verify what the server is using via: `GET /health`.
-
-### 3. Supabase Setup (Optional)
-
-1. Create a Supabase project
-2. In Supabase Dashboard → SQL Editor, run:
-     - `supabase/schema.sql`
-3. If you want anonymous inserts (public form), also run:
-     - `supabase/rls.sql`
-
-Important notes:
-- The required table name is `registrations` in the `public` schema.
-- The `consent` column is `NOT NULL`. The app stores `consent` as `yes` (checked) or `no` (unchecked).
-
-### 4. Run the Application
+### 3. Run the Application
 
 **macOS/Linux:**
 ```bash
@@ -100,14 +93,9 @@ datathon-2026/
 ├── requirements.txt        # Python dependencies
 ├── .env.example           # Environment variables template
 ├── .env                   # Your actual environment variables (create this)
-├── supabase/
-│   ├── schema.sql          # Supabase table schema (optional)
-│   └── rls.sql             # RLS + grants for public inserts (optional)
 ├── templates/
 │   ├── landing.html       # Landing page
 │   └── register.html      # Registration page
-├── data/                  # Local storage (created at runtime)
-│   └── registrations.jsonl # Registration records (JSON Lines)
 └── static/
     └── css/
         └── style.css      # Styling
@@ -120,35 +108,9 @@ datathon-2026/
 - `POST /register` - Submit registration
 - `GET /health` - Health check
 
-## Go Live (Deployment)
-
-For production, prefer Supabase (or another real database). If you rely on local file storage, mount a persistent volume.
-
-### Option A: Docker (recommended)
-
-1. Build and run locally:
-
-```bash
-docker build -t datathon-2026 .
-docker run -p 8000:8000 datathon-2026
-```
-
-2. Deploy the same image to Render / Railway / Fly.io / Azure Container Apps.
-
-### Option B: Render / Railway (no Docker knowledge needed)
-
-- Start command:
-
-```bash
-gunicorn -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
-```
-
-- If using Supabase, set `SUPABASE_URL` + `SUPABASE_ANON_KEY` (or `SUPABASE_SERVICE_ROLE_KEY`) in your hosting platform.
-- If using local file storage, set `REGISTRATIONS_PATH` to a mounted volume path.
-
 ## Tech Stack
 
 - **Backend**: FastAPI
-- **Storage**: Supabase (Postgres) or local JSONL fallback
+- **Database**: Supabase (PostgreSQL)
 - **Frontend**: HTML, CSS (Jinja2 templates)
 - **Styling**: Custom CSS with gradient design
