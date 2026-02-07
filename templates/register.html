@@ -3,32 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Datathon 2026</title>
+    <title>Register - MITAOE GirlScript Datathon 2026</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body>
+<body class="register-page">
+    <video class="page-video" autoplay muted loop playsinline preload="auto">
+        <source src="/static/media/video.mp4?v={{ video_version }}" type="video/mp4">
+    </video>
+    <div class="page-overlay" aria-hidden="true"></div>
+
     <div class="container">
-        <header class="header">
+        <header class="header header-compact">
             <h1 class="title">📝 Registration</h1>
             <a href="/" class="back-link">← Back to Home</a>
         </header>
 
-        {% if success %}
-        <div class="alert alert-success">
-            ✅ {{ message }}
-        </div>
-        {% elif error %}
-        <div class="alert alert-error">
-            ❌ {{ message }}
-        </div>
-        {% endif %}
-
         <section class="form-section">
             <div class="form-container">
-                <h2>Join Datathon 2026</h2>
-                <p class="form-subtitle">Fill out the form below to secure your spot</p>
+                <h2>Join the MITAOE Datathon</h2>
+                <p class="form-subtitle">GirlScript Club • MIT Academy of Engineering, Alandi (Pune)</p>
+
+                {% if success %}
+                <div class="alert alert-success">
+                    ✅ {{ message }}
+                </div>
+                {% elif error %}
+                <div class="alert alert-error">
+                    ❌ {{ message }}
+                </div>
+                {% endif %}
+
+                <div class="info-row">
+                    <div class="info-chip">📅 March 15-17, 2026</div>
+                    <div class="info-chip">📍 MITAOE, Alandi (Pune)</div>
+                    <div class="info-chip">👥 Solo or Team (2–4)</div>
+                </div>
                 
-                <form method="POST" action="/register" class="registration-form">
+                <form method="POST" action="/register" class="registration-form" id="registrationForm" novalidate>
+                    <div class="section-title">Student Details</div>
                     <div class="form-group">
                         <label for="name">Full Name *</label>
                         <input 
@@ -58,45 +70,151 @@
                             id="phone" 
                             name="phone" 
                             required 
-                            placeholder="+1 (555) 123-4567"
+                            placeholder="+91 9XXXX XXXXX"
                         >
+                        <small class="hint">WhatsApp number preferred</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="university">University/Organization *</label>
+                        <label for="university">Institute *</label>
                         <input 
                             type="text" 
                             id="university" 
                             name="university" 
                             required 
-                            placeholder="Your university or company"
+                            placeholder="MIT Academy of Engineering"
                         >
                     </div>
 
-                    <div class="form-group">
-                        <label for="team_name">Team Name (Optional)</label>
-                        <input 
-                            type="text" 
-                            id="team_name" 
-                            name="team_name" 
-                            placeholder="Leave blank if participating solo"
-                        >
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="department">Department/Branch *</label>
+                            <input 
+                                type="text" 
+                                id="department" 
+                                name="department" 
+                                required 
+                                placeholder="Computer Engineering"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="year">Year of Study *</label>
+                            <select id="year" name="year" required>
+                                <option value="" disabled selected>Select year</option>
+                                <option value="FY">First Year (FY)</option>
+                                <option value="SY">Second Year (SY)</option>
+                                <option value="TY">Third Year (TY)</option>
+                                <option value="BTech">Final Year (B.Tech)</option>
+                                <option value="MTech">M.Tech</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-full">
+                    <div class="section-title">Participation</div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="participation">Participation Type *</label>
+                            <select id="participation" name="participation" required>
+                                <option value="" disabled selected>Select participation</option>
+                                <option value="solo">Solo</option>
+                                <option value="team">Team</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="teamSection" class="team-section" hidden>
+                        <div class="section-title">Team Details</div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="team_size">Team Size *</label>
+                                <select id="team_size" name="team_size" required disabled>
+                                    <option value="" disabled selected>Select size</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="team_name">Team Name *</label>
+                                <input 
+                                    type="text" 
+                                    id="team_name" 
+                                    name="team_name" 
+                                    placeholder="Enter your team name"
+                                    required
+                                    disabled
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Team Members *</label>
+                            <div class="member-grid" id="memberGrid">
+                                <div class="member-row" data-member-row="1">
+                                    <div class="member-badge">Member 1 (You)</div>
+                                    <div class="member-fields">
+                                        <input type="text" id="member1_name" name="member1_name" placeholder="Full name" disabled>
+                                        <input type="email" id="member1_email" name="member1_email" placeholder="Email" disabled>
+                                    </div>
+                                </div>
+                                <div class="member-row" data-member-row="2">
+                                    <div class="member-badge">Member 2</div>
+                                    <div class="member-fields">
+                                        <input type="text" id="member2_name" name="member2_name" placeholder="Full name" disabled>
+                                        <input type="email" id="member2_email" name="member2_email" placeholder="Email" disabled>
+                                    </div>
+                                </div>
+                                <div class="member-row" data-member-row="3">
+                                    <div class="member-badge">Member 3</div>
+                                    <div class="member-fields">
+                                        <input type="text" id="member3_name" name="member3_name" placeholder="Full name" disabled>
+                                        <input type="email" id="member3_email" name="member3_email" placeholder="Email" disabled>
+                                    </div>
+                                </div>
+                                <div class="member-row" data-member-row="4">
+                                    <div class="member-badge">Member 4</div>
+                                    <div class="member-fields">
+                                        <input type="text" id="member4_name" name="member4_name" placeholder="Full name" disabled>
+                                        <input type="email" id="member4_email" name="member4_email" placeholder="Email" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="hint">Select team size to unlock member fields.</small>
+
+                            <input type="hidden" id="team_members" name="team_members" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="consent" name="consent" value="yes">
+                        <label for="consent">
+                            I agree to the event rules and code of conduct, and allow organizers to contact me.
+                        </label>
+                    </div>
+
+                    <div class="form-error" id="formError" aria-live="polite"></div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn" aria-disabled="false">
                         Complete Registration
                     </button>
                 </form>
 
                 <div class="form-footer">
-                    <p>Questions? Contact us at <a href="mailto:info@datathon2026.com">info@datathon2026.com</a></p>
+                    <p>Questions? Contact us at <a href="mailto:girlscript.mitaoe@gmail.com">girlscript.mitaoe@gmail.com</a></p>
                 </div>
             </div>
         </section>
 
         <footer class="footer">
-            <p>&copy; 2026 Datathon. All rights reserved.</p>
+            <p>&copy; 2026 GirlScript Club, MITAOE. All rights reserved.</p>
         </footer>
     </div>
+
+    <script src="/static/js/register.js"></script>
 </body>
 </html>
