@@ -15,7 +15,7 @@ const HeroGame = (() => {
 
   /* ── stars ─────────────────────────────────────────────── */
   function makeStars() {
-    stars = Array.from({ length: 80 }, () => ({
+    stars = Array.from({ length: 140 }, () => ({
       x: rand(0, W), y: rand(0, H),
       r: rand(0.4, 1.5), sp: rand(0.2, 1), a: rand(0.3, 0.9),
     }));
@@ -26,7 +26,7 @@ const HeroGame = (() => {
     score = 0; gameOver = false; shootCD = 0;
     spawnRate = 900; lastSpawn = performance.now();
     bullets = []; enemies = []; particles = [];
-    player = { x: W / 2, y: H - 70, w: 26, h: 26, sp: isMobile ? 5 : 6 };
+    player = { x: W / 2, y: H - 70, w: 26, h: 26, sp: isMobile ? 5 : 9 };
   }
 
   /* ── spawn / update helpers ────────────────────────────── */
