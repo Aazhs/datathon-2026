@@ -1,37 +1,56 @@
-# Datathon 2026 Registration Website
+# Datathon 2026
 
-A simple hackathon registration website built with FastAPI and Supabase.
+Registration website for Datathon 2026 — a multi-round data science competition. Built with FastAPI, Supabase, and a playable Space Shooter mini-game in the hero section.
+
+![Python](https://img.shields.io/badge/Python-3.11+-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688) ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
 
-- 🎨 Beautiful landing page with event details
-- 📝 Registration form with validation
-- 💾 Data storage using Supabase
-- 🚀 Fast and responsive design
+- Dark cyberpunk/gaming themed UI (monospace headings, neon accents, `#0a0a0a` background)
+- Playable HTML5 Canvas space shooter embedded in the hero section
+- Event timeline, round structure, pricing, and registration flow
+- Registration form backed by Supabase (PostgreSQL)
+- Fully responsive — mobile touch controls for the game
+- No external image assets — all visuals are geometric/CSS
 
-## Setup Instructions
+## Quick Start
 
-### 1. Install Dependencies
-
-**macOS/Linux:**
 ```bash
+# Clone
+git clone https://github.com/<your-username>/datathon-2026.git
+cd datathon-2026
+
+# Virtual env
+python3 -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+
+# Install deps
 pip install -r requirements.txt
+
+# Configure env
+cp .env.example .env
+# Edit .env with your Supabase URL + Key
+
+# Run
+uvicorn main:app --reload
 ```
 
-**Windows:**
-```bash
-pip install -r requirements.txt
+Open [http://localhost:8000](http://localhost:8000)
+
+## Environment Variables
+
+Create a `.env` file with:
+
+```
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your-anon-key
 ```
 
-**Note:** If using Python 3.14, you may encounter compatibility issues. Use Python 3.11-3.13 instead:
-- macOS/Linux: `python3.13 -m venv venv`
-- Windows: `py -3.13 -m venv venv`
+Get these from [Supabase](https://supabase.com) → Project Settings → API.
 
-### 2. Configure Supabase
+## Database Setup
 
-1. Create a Supabase account at [supabase.com](https://supabase.com)
-2. Create a new project
-3. Create a table called `registrations` with the following schema:
+Create a `registrations` table in Supabase:
 
 ```sql
 CREATE TABLE registrations (
@@ -45,72 +64,52 @@ CREATE TABLE registrations (
 );
 ```
 
-4. Copy `.env.example` to `.env` and add your Supabase credentials:
-
-**macOS/Linux:**
-```bash
-cp .env.example .env
-```
-
-**Windows (Command Prompt):**
-```bash
-copy .env.example .env
-```
-
-**Windows (PowerShell):**
-```bash
-Copy-Item .env.example .env
-```
-
-Edit `.env` and add:
-- `SUPABASE_URL`: Your project URL (found in Project Settings > API)
-- `SUPABASE_KEY`: Your anon/public key (found in Project Settings > API)
-
-### 3. Run the Application
-
-**macOS/Linux:**
-```bash
-python main.py
-```
-
-**Windows:**
-```bash
-python main.py
-```
-
-Or using uvicorn directly:
-```bash
-uvicorn main:app --reload
-```
-
-The application will be available at `http://localhost:8000`
-
 ## Project Structure
 
 ```
 datathon-2026/
-├── main.py                 # FastAPI application
+├── main.py                 # FastAPI app (routes, Supabase client)
 ├── requirements.txt        # Python dependencies
-├── .env.example           # Environment variables template
-├── .env                   # Your actual environment variables (create this)
+├── .env                    # Supabase credentials (not committed)
 ├── templates/
-│   ├── landing.html       # Landing page
-│   └── register.html      # Registration page
+│   ├── landing.html        # Landing page (hero, timeline, rounds, pricing)
+│   └── register.html       # Registration form
 └── static/
-    └── css/
-        └── style.css      # Styling
+    ├── css/
+    │   └── style.css       # Dark/cyberpunk theme
+    └── js/
+        └── space-shooter.js # Canvas space shooter game
 ```
 
-## API Endpoints
+## Routes
 
-- `GET /` - Landing page
-- `GET /register` - Registration form
-- `POST /register` - Submit registration
-- `GET /health` - Health check
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/` | Landing page |
+| GET | `/register` | Registration form |
+| POST | `/register` | Submit registration |
+
+## Space Shooter Controls
+
+| Input | Action |
+|-------|--------|
+| Arrow Keys / A-D | Move left/right |
+| Space / Arrow Up | Shoot |
+| Enter | Restart after game over |
+| Touch + drag (mobile) | Move + auto-fire |
+| Tap (mobile) | Restart after game over |
+
+## Deployment
+
+Recommended: **[Render](https://render.com)** (free tier)
+
+- **Build command:** `pip install -r requirements.txt`
+- **Start command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+- **Plan:** Free
 
 ## Tech Stack
 
-- **Backend**: FastAPI
-- **Database**: Supabase (PostgreSQL)
-- **Frontend**: HTML, CSS (Jinja2 templates)
-- **Styling**: Custom CSS with gradient design
+- **Backend:** FastAPI + Uvicorn
+- **Database:** Supabase (PostgreSQL)
+- **Frontend:** Jinja2 templates, vanilla CSS/JS
+- **Game:** HTML5 Canvas API
