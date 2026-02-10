@@ -24,9 +24,9 @@ const HeroGame = (() => {
   /* ── main reset ────────────────────────────────────────── */
   function restart() {
     score = 0; gameOver = false; shootCD = 0;
-    spawnRate = 900; lastSpawn = performance.now();
+    spawnRate = 900; lastSpawn = 0;
     bullets = []; enemies = []; particles = [];
-    player = { x: W / 2, y: H - 70, w: 26, h: 26, sp: isMobile ? 5 : 9 };
+    player = { x: W / 2, y: H - 70, w: 34, h: 34, sp: isMobile ? 5 : 9 };
   }
 
   /* ── spawn / update helpers ────────────────────────────── */
@@ -75,7 +75,7 @@ const HeroGame = (() => {
 
       // Enemies
       if (ts - lastSpawn > spawnRate) {
-        const sz = rand(16, 30);
+        const sz = rand(22, 38);
         enemies.push({ x: rand(sz, W - sz), y: -sz, sz, sp: rand(1.5, 3) + score * 0.008, rot: 0, rs: rand(-0.03, 0.03) });
         lastSpawn = ts;
         if (spawnRate > 400) spawnRate -= 2;
@@ -143,11 +143,17 @@ const HeroGame = (() => {
     }
     ctx.globalAlpha = 1;
 
-    // HUD — score top-right
+    // HUD — score top-right + bottom-left
     ctx.fillStyle = NEON;
     ctx.font = 'bold 16px "JetBrains Mono","Courier New",monospace';
     ctx.textAlign = 'right';
     ctx.fillText('SCORE ' + String(score).padStart(5, '0'), W - 16, 30);
+
+    ctx.textAlign = 'left';
+    ctx.font = '13px "JetBrains Mono","Courier New",monospace';
+    ctx.globalAlpha = 0.5;
+    ctx.fillText(String(score), 16, H - 16);
+    ctx.globalAlpha = 1;
 
     // Game Over — anchored to bottom
     if (gameOver) {

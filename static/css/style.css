@@ -190,11 +190,40 @@ a:hover { text-decoration: underline; }
     right: 18px;
     z-index: 2;
     font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,.2);
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,.45);
     text-transform: uppercase;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.game-hint--mobile { display: none; }
+
+.game-hint kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 28px;
+    padding: 0 7px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255,255,255,.6);
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 4px;
+    box-shadow: 0 2px 0 rgba(255,255,255,.08);
+    line-height: 1;
+}
+
+.hint-sep {
+    color: rgba(255,255,255,.3);
+    font-size: 0.72rem;
+    margin: 0 2px;
 }
 
 /* ── BUTTONS ────────────────────────────────────────────── */
@@ -831,6 +860,9 @@ a:hover { text-decoration: underline; }
     .stat:nth-child(2) { border-right: none; }
 
     .hero-btns { flex-direction: column; gap: 12px; }
+
+    .game-hint--desktop { display: none !important; }
+    .game-hint--mobile { display: flex !important; }
 
     .form-container { padding: 36px 20px; }
     .form-container--wide { max-width: 100%; }

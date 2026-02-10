@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datathon 2026</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -40,7 +41,15 @@
                 <a href="#timeline" class="btn btn-ghost">View Timeline</a>
             </div>
         </div>
-        <p class="game-hint">Arrow Keys to move &middot; Space to shoot</p>
+        <div class="game-hint game-hint--desktop">
+            <kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd>
+            <span class="hint-sep">move</span>
+            <kbd>space</kbd>
+            <span class="hint-sep">shoot</span>
+        </div>
+        <div class="game-hint game-hint--mobile">
+            <span class="hint-sep">tap &amp; drag to move &middot; auto-fires</span>
+        </div>
     </section>
 
     <!-- ── STATS BAR ────────────────────────────────────── -->
