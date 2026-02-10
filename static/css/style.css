@@ -178,6 +178,35 @@ a:hover { text-decoration: underline; }
     line-height: 1.7;
 }
 
+.presented-by {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    pointer-events: auto;
+}
+
+.presented-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(255,255,255,.15);
+}
+
+.presented-by span {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+}
+
+.presented-by strong {
+    color: rgba(255,255,255,.75);
+    font-weight: 600;
+}
+
 .hero-btns {
     display: flex;
     gap: 16px;
