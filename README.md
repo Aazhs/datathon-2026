@@ -55,11 +55,21 @@ Create a `registrations` table in Supabase:
 ```sql
 CREATE TABLE registrations (
   id BIGSERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT NOT NULL,
+  team_name TEXT NOT NULL,
   university TEXT NOT NULL,
-  team_name TEXT,
+  problem_statement TEXT NOT NULL,
+  leader_name TEXT NOT NULL,
+  leader_email TEXT NOT NULL,
+  leader_phone TEXT NOT NULL,
+  member2_name TEXT NOT NULL,
+  member2_email TEXT NOT NULL,
+  member2_phone TEXT NOT NULL,
+  member3_name TEXT NOT NULL,
+  member3_email TEXT NOT NULL,
+  member3_phone TEXT NOT NULL,
+  member4_name TEXT NOT NULL,
+  member4_email TEXT NOT NULL,
+  member4_phone TEXT NOT NULL,
   registered_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```

@@ -50,38 +50,57 @@ async def register_page(request: Request):
 @app.post("/register")
 async def submit_registration(
     request: Request,
-    name: str = Form(...),
-    email: str = Form(...),
-    phone: str = Form(...),
+    team_name: str = Form(...),
     university: str = Form(...),
-    team_name: str = Form(None),
+    problem_statement: str = Form(...),
+    m1_name: str = Form(...),
+    m1_email: str = Form(...),
+    m1_phone: str = Form(...),
+    m2_name: str = Form(...),
+    m2_email: str = Form(...),
+    m2_phone: str = Form(...),
+    m3_name: str = Form(...),
+    m3_email: str = Form(...),
+    m3_phone: str = Form(...),
+    m4_name: str = Form(...),
+    m4_email: str = Form(...),
+    m4_phone: str = Form(...),
 ):
     """Handle registration form submission"""
     try:
         if not supabase:
             raise HTTPException(status_code=500, detail="Database not configured")
-        
-        # Insert registration data into Supabase
+
         data = {
-            "name": name,
-            "email": email,
-            "phone": phone,
-            "university": university,
             "team_name": team_name,
-            "registered_at": datetime.utcnow().isoformat()
+            "university": university,
+            "problem_statement": problem_statement,
+            "leader_name": m1_name,
+            "leader_email": m1_email,
+            "leader_phone": m1_phone,
+            "member2_name": m2_name,
+            "member2_email": m2_email,
+            "member2_phone": m2_phone,
+            "member3_name": m3_name,
+            "member3_email": m3_email,
+            "member3_phone": m3_phone,
+            "member4_name": m4_name,
+            "member4_email": m4_email,
+            "member4_phone": m4_phone,
+            "registered_at": datetime.utcnow().isoformat(),
         }
-        
+
         response = supabase.table("registrations").insert(data).execute()
-        
+
         return templates.TemplateResponse(
             "register.html",
             {
                 "request": request,
                 "success": True,
-                "message": "Registration successful! We'll contact you soon."
+                "message": "Registration successful! Team lead will receive portal credentials shortly."
             }
         )
-    
+
     except Exception as e:
         return templates.TemplateResponse(
             "register.html",

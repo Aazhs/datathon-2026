@@ -36,66 +36,123 @@
         {% endif %}
 
         <section class="form-section">
-            <div class="form-container">
+            <div class="form-container form-container--wide">
                 <div class="reg-header" style="padding:0 0 20px;">
-                    <h2>Register</h2>
+                    <h2>Register Your Team</h2>
                     <a href="/" class="back-link">&larr; Back</a>
                 </div>
-                <p class="form-subtitle">Team of 4 members required. Early bird pricing ends soon.</p>
+                <p class="form-subtitle">All 4 member details are required. Team lead will receive portal credentials.</p>
 
                 <form method="POST" action="/register" class="registration-form">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            required
-                            placeholder="Jane Doe"
-                        >
+
+                    <!-- Team Info -->
+                    <div class="form-section-label">Team Info</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="team_name">Team Name</label>
+                            <input type="text" id="team_name" name="team_name" required placeholder="e.g. NeuralNinjas">
+                        </div>
+                        <div class="form-group">
+                            <label for="university">University / Organization</label>
+                            <input type="text" id="university" name="university" required placeholder="Your institution">
+                        </div>
                     </div>
 
+                    <!-- Problem Statement -->
+                    <div class="form-section-label">Problem Statement</div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            required
-                            placeholder="jane@university.edu"
-                        >
+                        <label for="problem_statement">Choose a Problem Statement</label>
+                        <select id="problem_statement" name="problem_statement" required>
+                            <option value="" disabled selected>-- Select a problem statement --</option>
+                            <option value="PS-01">PS-01: Predictive Healthcare Analytics</option>
+                            <option value="PS-02">PS-02: Smart Traffic Management</option>
+                            <option value="PS-03">PS-03: Fake News Detection</option>
+                            <option value="PS-04">PS-04: Crop Yield Prediction</option>
+                            <option value="PS-05">PS-05: Financial Fraud Detection</option>
+                            <option value="PS-06">PS-06: Energy Consumption Forecasting</option>
+                            <option value="PS-07">PS-07: Customer Churn Analysis</option>
+                            <option value="PS-08">PS-08: Air Quality Index Prediction</option>
+                            <option value="PS-09">PS-09: Supply Chain Optimization</option>
+                            <option value="PS-10">PS-10: Sentiment Analysis on Reviews</option>
+                            <option value="PS-11">PS-11: Disaster Response Mapping</option>
+                            <option value="PS-12">PS-12: Automated Resume Screening</option>
+                            <option value="PS-13">PS-13: Water Quality Monitoring</option>
+                            <option value="PS-14">PS-14: Education Dropout Prediction</option>
+                            <option value="PS-15">PS-15: Real Estate Price Estimation</option>
+                            <option value="PS-16">PS-16: Cybersecurity Threat Detection</option>
+                            <option value="PS-17">PS-17: Sports Performance Analytics</option>
+                            <option value="PS-18">PS-18: Personalized Learning Paths</option>
+                            <option value="PS-19">PS-19: Urban Waste Management</option>
+                            <option value="PS-20">PS-20: Social Media Trend Forecasting</option>
+                        </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            required
-                            placeholder="+91 98765 43210"
-                        >
+                    <!-- Member 1 (Leader) -->
+                    <div class="form-section-label">Member 1 — Team Leader</div>
+                    <div class="form-row form-row--3">
+                        <div class="form-group">
+                            <label for="m1_name">Full Name</label>
+                            <input type="text" id="m1_name" name="m1_name" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="m1_email">Email</label>
+                            <input type="email" id="m1_email" name="m1_email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="m1_phone">Phone</label>
+                            <input type="tel" id="m1_phone" name="m1_phone" required placeholder="+91 98765 43210">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="university">University / Organization</label>
-                        <input
-                            type="text"
-                            id="university"
-                            name="university"
-                            required
-                            placeholder="Your institution"
-                        >
+                    <!-- Member 2 -->
+                    <div class="form-section-label">Member 2</div>
+                    <div class="form-row form-row--3">
+                        <div class="form-group">
+                            <label for="m2_name">Full Name</label>
+                            <input type="text" id="m2_name" name="m2_name" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="m2_email">Email</label>
+                            <input type="email" id="m2_email" name="m2_email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="m2_phone">Phone</label>
+                            <input type="tel" id="m2_phone" name="m2_phone" required placeholder="+91 98765 43210">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="team_name">Team Name (optional)</label>
-                        <input
-                            type="text"
-                            id="team_name"
-                            name="team_name"
-                            placeholder="e.g. NeuralNinjas"
-                        >
+                    <!-- Member 3 -->
+                    <div class="form-section-label">Member 3</div>
+                    <div class="form-row form-row--3">
+                        <div class="form-group">
+                            <label for="m3_name">Full Name</label>
+                            <input type="text" id="m3_name" name="m3_name" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="m3_email">Email</label>
+                            <input type="email" id="m3_email" name="m3_email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="m3_phone">Phone</label>
+                            <input type="tel" id="m3_phone" name="m3_phone" required placeholder="+91 98765 43210">
+                        </div>
+                    </div>
+
+                    <!-- Member 4 -->
+                    <div class="form-section-label">Member 4</div>
+                    <div class="form-row form-row--3">
+                        <div class="form-group">
+                            <label for="m4_name">Full Name</label>
+                            <input type="text" id="m4_name" name="m4_name" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="m4_email">Email</label>
+                            <input type="email" id="m4_email" name="m4_email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="m4_phone">Phone</label>
+                            <input type="tel" id="m4_phone" name="m4_phone" required placeholder="+91 98765 43210">
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-full">
