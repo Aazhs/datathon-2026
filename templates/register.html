@@ -3,100 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Datathon 2026</title>
+    <title>Register — Datathon 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="title">📝 Registration</h1>
-            <a href="/" class="back-link">← Back to Home</a>
-        </header>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">DATATHON<span class="accent">_26</span></a>
+            <div class="nav-links">
+                <a href="/#timeline">Timeline</a>
+                <a href="/#structure">Rounds</a>
+                <a href="/#pricing">Pricing</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrap">
 
         {% if success %}
-        <div class="alert alert-success">
-            ✅ {{ message }}
+        <div class="alert alert-success" style="margin-top:24px;">
+            {{ message }}
         </div>
         {% elif error %}
-        <div class="alert alert-error">
-            ❌ {{ message }}
+        <div class="alert alert-error" style="margin-top:24px;">
+            {{ message }}
         </div>
         {% endif %}
 
         <section class="form-section">
             <div class="form-container">
-                <h2>Join Datathon 2026</h2>
-                <p class="form-subtitle">Fill out the form below to secure your spot</p>
-                
+                <div class="reg-header" style="padding:0 0 20px;">
+                    <h2>Register</h2>
+                    <a href="/" class="back-link">&larr; Back</a>
+                </div>
+                <p class="form-subtitle">Team of 4 members required. Early bird pricing ends soon.</p>
+
                 <form method="POST" action="/register" class="registration-form">
                     <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            required 
-                            placeholder="Enter your full name"
+                        <label for="name">Full Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            required
+                            placeholder="Jane Doe"
                         >
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            required 
-                            placeholder="your.email@example.com"
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            placeholder="jane@university.edu"
                         >
                     </div>
 
                     <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input 
-                            type="tel" 
-                            id="phone" 
-                            name="phone" 
-                            required 
-                            placeholder="+1 (555) 123-4567"
+                        <label for="phone">Phone</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            required
+                            placeholder="+91 98765 43210"
                         >
                     </div>
 
                     <div class="form-group">
-                        <label for="university">University/Organization *</label>
-                        <input 
-                            type="text" 
-                            id="university" 
-                            name="university" 
-                            required 
-                            placeholder="Your university or company"
+                        <label for="university">University / Organization</label>
+                        <input
+                            type="text"
+                            id="university"
+                            name="university"
+                            required
+                            placeholder="Your institution"
                         >
                     </div>
 
                     <div class="form-group">
-                        <label for="team_name">Team Name (Optional)</label>
-                        <input 
-                            type="text" 
-                            id="team_name" 
-                            name="team_name" 
-                            placeholder="Leave blank if participating solo"
+                        <label for="team_name">Team Name (optional)</label>
+                        <input
+                            type="text"
+                            id="team_name"
+                            name="team_name"
+                            placeholder="e.g. NeuralNinjas"
                         >
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-full">
-                        Complete Registration
+                        Submit Registration
                     </button>
                 </form>
 
                 <div class="form-footer">
-                    <p>Questions? Contact us at <a href="mailto:info@datathon2026.com">info@datathon2026.com</a></p>
+                    <p>You'll also need to register on <a href="https://unstop.com" target="_blank">Unstop</a> to receive your Team ID and portal credentials.</p>
                 </div>
             </div>
         </section>
 
         <footer class="footer">
-            <p>&copy; 2026 Datathon. All rights reserved.</p>
+            <div class="footer-inner">
+                <span class="nav-logo">DATATHON<span class="accent">_26</span></span>
+                <p>&copy; 2026 Datathon. All rights reserved.</p>
+            </div>
         </footer>
     </div>
+
 </body>
 </html>

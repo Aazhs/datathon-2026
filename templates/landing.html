@@ -3,79 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datathon 2026 - Join the Challenge</title>
+    <title>Datathon 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="title">🚀 Datathon 2026</h1>
-            <p class="subtitle">Where Data Meets Innovation</p>
-        </header>
 
-        <section class="hero">
-            <div class="hero-content">
-                <h2>Join the Ultimate Data Challenge</h2>
-                <p class="hero-text">
-                    Compete with the brightest minds, solve real-world problems, 
-                    and showcase your data science skills at Datathon 2026.
-                </p>
-                <div class="event-details">
-                    <div class="detail-item">
-                        <span class="icon">📅</span>
-                        <div>
-                            <strong>Date</strong>
-                            <p>March 15-17, 2026</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <div>
-                            <strong>Location</strong>
-                            <p>Virtual & In-Person</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">🏆</span>
-                        <div>
-                            <strong>Prizes</strong>
-                            <p>$50,000+ in rewards</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="/register" class="btn btn-primary">Register Now</a>
+    <!-- ── NAV ──────────────────────────────────────────── -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">DATATHON<span class="accent">_26</span></a>
+            <div class="nav-links">
+                <a href="#timeline">Timeline</a>
+                <a href="#structure">Rounds</a>
+                <a href="#pricing">Pricing</a>
+                <a href="/register" class="nav-cta">Register</a>
             </div>
-        </section>
+            <button class="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
 
-        <section class="features">
-            <h3>Why Participate?</h3>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">💡</div>
-                    <h4>Learn & Grow</h4>
-                    <p>Enhance your data science skills with hands-on challenges</p>
+    <!-- ── HERO + GAME ──────────────────────────────────── -->
+    <section class="hero" id="hero">
+        <canvas id="heroGameCanvas"></canvas>
+        <div class="hero-overlay">
+            <p class="hero-tag">March 5 &ndash; 28, 2026</p>
+            <h1>DATATHON<span class="accent"> 2026</span></h1>
+            <p class="hero-sub">Solve real-world problem statements. Build. Present. Win.</p>
+            <div class="hero-btns">
+                <a href="/register" class="btn btn-primary">Register on Unstop</a>
+                <a href="#timeline" class="btn btn-ghost">View Timeline</a>
+            </div>
+        </div>
+        <p class="game-hint">Arrow Keys to move &middot; Space to shoot</p>
+    </section>
+
+    <!-- ── STATS BAR ────────────────────────────────────── -->
+    <section class="stats-bar">
+        <div class="stat">
+            <span class="stat-num">150&ndash;200</span>
+            <span class="stat-label">Teams Registered</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">4</span>
+            <span class="stat-label">Members / Team</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">20</span>
+            <span class="stat-label">Problem Statements</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">3</span>
+            <span class="stat-label">Competitive Rounds</span>
+        </div>
+    </section>
+
+    <!-- ── TIMELINE ─────────────────────────────────────── -->
+    <section class="section" id="timeline">
+        <div class="section-inner">
+            <h2 class="section-title">Timeline</h2>
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-marker"></div>
+                    <div class="tl-content">
+                        <span class="tl-date">Now &rarr; 5 March</span>
+                        <h3>Registration &amp; Team Formation</h3>
+                        <p>Register via Unstop. Form a team of exactly 4 members. Team lead receives login credentials (username + password) for the portal. Problem statements are allocated on a first-come, first-served basis.</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h4>Network</h4>
-                    <p>Connect with industry leaders and fellow data enthusiasts</p>
+                <div class="tl-item">
+                    <div class="tl-marker"></div>
+                    <div class="tl-content">
+                        <span class="tl-date">5 March</span>
+                        <h3>Problem Statement Selection</h3>
+                        <p>Choose from 20 problem statements&mdash;FCFS allocation, so register early to secure your preferred topic. Each PS is limited to a fixed number of teams.</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎁</div>
-                    <h4>Win Prizes</h4>
-                    <p>Compete for amazing prizes and recognition</p>
+                <div class="tl-item">
+                    <div class="tl-marker"></div>
+                    <div class="tl-content">
+                        <span class="tl-date">18 March</span>
+                        <h3>PPT Submission</h3>
+                        <p>Submit your solution deck. Presentation format will be provided by the organizing team beforehand.</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h4>Career Boost</h4>
-                    <p>Get noticed by top tech companies and recruiters</p>
+                <div class="tl-item">
+                    <div class="tl-marker"></div>
+                    <div class="tl-content">
+                        <span class="tl-date">28 March</span>
+                        <h3>Final Presentation</h3>
+                        <p>Top teams present their solutions live. Winners are announced across all rounds.</p>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <footer class="footer">
+    <!-- ── ROUND STRUCTURE ──────────────────────────────── -->
+    <section class="section section--alt" id="structure">
+        <div class="section-inner">
+            <h2 class="section-title">Round Structure</h2>
+            <div class="rounds-grid">
+                <div class="round-card">
+                    <div class="round-num">01</div>
+                    <h3>Registration</h3>
+                    <p class="round-meta">150 &ndash; 200 Teams</p>
+                    <p>All registered teams compete. Top performers are shortlisted for the next round.</p>
+                </div>
+                <div class="round-card">
+                    <div class="round-num">02</div>
+                    <h3>Round I</h3>
+                    <p class="round-meta">100 &ndash; 150 Teams</p>
+                    <p>Screened teams present their approach. 2 winners advance from each group.</p>
+                </div>
+                <div class="round-card">
+                    <div class="round-num">03</div>
+                    <h3>Round II</h3>
+                    <p class="round-meta">~100 Teams</p>
+                    <p>Deeper evaluation. Teams are divided into 8 groups. 2 winners per group move to finals.</p>
+                </div>
+                <div class="round-card round-card--final">
+                    <div class="round-num">F</div>
+                    <h3>Grand Finale</h3>
+                    <p class="round-meta">Top 16 Teams</p>
+                    <p>Live presentations. 1st, 2nd, and 3rd place winners crowned.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PRICING ──────────────────────────────────────── -->
+    <section class="section" id="pricing">
+        <div class="section-inner">
+            <h2 class="section-title">Pricing</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <span class="price-badge">Early Bird</span>
+                    <div class="price-amount">&#8377;149<span>/team</span></div>
+                    <ul class="price-features">
+                        <li>Team of 4 members</li>
+                        <li>Access to all rounds</li>
+                        <li>FCFS problem statement pick</li>
+                        <li>Portal login credentials</li>
+                    </ul>
+                    <a href="/register" class="btn btn-primary btn-full">Register Now</a>
+                </div>
+                <div class="price-card">
+                    <span class="price-badge price-badge--regular">Regular</span>
+                    <div class="price-amount">&#8377;499<span>/team</span></div>
+                    <ul class="price-features">
+                        <li>Team of 4 members</li>
+                        <li>Access to all rounds</li>
+                        <li>Problem statement allocation</li>
+                        <li>Portal login credentials</li>
+                    </ul>
+                    <a href="/register" class="btn btn-ghost btn-full">Register</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── HOW IT WORKS ─────────────────────────────────── -->
+    <section class="section section--alt" id="how">
+        <div class="section-inner">
+            <h2 class="section-title">How to Register</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Register on Unstop</h4>
+                    <p>Create your team on the Unstop platform. Each team must have exactly 4 members.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Get Credentials</h4>
+                    <p>Team lead receives a unique Team ID, username, and password for the datathon portal.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Pick Your Problem</h4>
+                    <p>Login and choose from 20 problem statements. Allocation is first-come, first-served.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>Build &amp; Submit</h4>
+                    <p>Work on your solution and submit your PPT by 18th March in the provided format.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ───────────────────────────────────────── -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="nav-logo">DATATHON<span class="accent">_26</span></span>
             <p>&copy; 2026 Datathon. All rights reserved.</p>
-        </footer>
-    </div>
+        </div>
+    </footer>
+
+    <!-- Space Shooter mini-game -->
+    <script src="/static/js/space-shooter.js"></script>
+    <script>
+        HeroGame.init('heroGameCanvas');
+
+        // Mobile nav toggle
+        document.querySelector('.nav-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('open');
+        });
+    </script>
 </body>
 </html>
