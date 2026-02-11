@@ -11,13 +11,16 @@ from datetime import datetime, timezone
 # Load environment variables
 load_dotenv()
 
+# Absolute paths (required for Vercel serverless)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 app = FastAPI(title="Datathon 2026")
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
 # Setup templates
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 # Initialize Supabase client
 SUPABASE_URL = os.getenv("SUPABASE_URL")
