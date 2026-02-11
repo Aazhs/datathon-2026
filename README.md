@@ -90,6 +90,9 @@ CREATE TABLE registrations (
 ```
 datathon-2026/
 ├── main.py                 # FastAPI app (routes, auth, Supabase client)
+├── api/
+│   └── index.py            # Vercel serverless entry point
+├── vercel.json             # Vercel deployment config
 ├── requirements.txt        # Python dependencies
 ├── .env                    # Supabase credentials (not committed)
 ├── templates/
@@ -133,11 +136,33 @@ datathon-2026/
 
 ## Deployment
 
-Recommended: **[Render](https://render.com)** (free tier)
+### Vercel (recommended)
+
+1. Push this repo to GitHub
+2. Import the project on [vercel.com](https://vercel.com)
+3. Add environment variables in Vercel dashboard:
+   - `SUPABASE_URL`
+   - `SUPABASE_KEY`
+   - `ENV` = `production`
+4. Deploy — Vercel auto-detects the config from `vercel.json`
+
+Or use the CLI:
+
+```bash
+npm i -g vercel
+vercel
+```
+
+### Local
+
+```bash
+uvicorn main:app --reload
+```
+
+### Render (alternative)
 
 - **Build command:** `pip install -r requirements.txt`
 - **Start command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
-- **Plan:** Free
 
 ## Tech Stack
 
