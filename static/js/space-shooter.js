@@ -75,7 +75,7 @@ const HeroGame = (() => {
 
       // Enemies
       if (ts - lastSpawn > spawnRate) {
-        const sz = rand(22, 38);
+        const sz = rand(20, 30);
         enemies.push({ x: rand(sz, W - sz), y: -sz, sz, sp: rand(1.5, 3) + score * 0.008, rot: 0, rs: rand(-0.03, 0.03) });
         lastSpawn = ts;
         if (spawnRate > 400) spawnRate -= 2;
