@@ -26,7 +26,7 @@ const HeroGame = (() => {
     score = 0; gameOver = false; shootCD = 0;
     spawnRate = 900; lastSpawn = 0;
     bullets = []; enemies = []; particles = [];
-    player = { x: W / 2, y: H - 70, w: 34, h: 34, sp: isMobile ? 5 : 9 };
+    player = { x: W / 2, y: H - 50, w: 44, h: 41, sp: isMobile ? 5 : 9 };
   }
 
   /* ── spawn / update helpers ────────────────────────────── */
