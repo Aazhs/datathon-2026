@@ -97,6 +97,34 @@ def clear_auth_cookies(response: Response):
     response.delete_cookie("refresh_token")
 
 
+def has_existing_registration(email: str) -> bool:
+    """Return True if this auth email has already submitted a team registration."""
+    if not supabase:
+        return False
+    try:
+        # First try registered_by (new column), fall back to leader_email
+        result = (
+            supabase.table("registrations")
+            .select("id")
+            .eq("registered_by", email)
+            .limit(1)
+            .execute()
+        )
+        if result.data:
+            return True
+        # Fallback: also check leader_email for older rows
+        result = (
+            supabase.table("registrations")
+            .select("id")
+            .eq("leader_email", email)
+            .limit(1)
+            .execute()
+        )
+        return bool(result.data)
+    except Exception:
+        return False
+
+
 # ── Pages ───────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
@@ -112,7 +140,11 @@ async def register_page(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/login?next=/register", status_code=302)
-    return templates.TemplateResponse("register.html", {"request": request, "user": user})
+    already_registered = has_existing_registration(user["email"])
+    return templates.TemplateResponse(
+        "register.html",
+        {"request": request, "user": user, "already_registered": already_registered},
+    )
 
 
 # ── Signup ──────────────────────────────────────────────────
@@ -250,34 +282,60 @@ async def submit_registration(
     request: Request,
     team_name: str = Form(...),
     university: str = Form(...),
+    team_size: int = Form(...),
     problem_statement: str = Form(...),
     m1_name: str = Form(...),
     m1_email: str = Form(...),
     m1_phone: str = Form(...),
-    m2_name: str = Form(...),
-    m2_email: str = Form(...),
-    m2_phone: str = Form(...),
-    m3_name: str = Form(...),
-    m3_email: str = Form(...),
-    m3_phone: str = Form(...),
-    m4_name: str = Form(...),
-    m4_email: str = Form(...),
-    m4_phone: str = Form(...),
+    m2_name: str = Form(""),
+    m2_email: str = Form(""),
+    m2_phone: str = Form(""),
+    m3_name: str = Form(""),
+    m3_email: str = Form(""),
+    m3_phone: str = Form(""),
+    m4_name: str = Form(""),
+    m4_email: str = Form(""),
+    m4_phone: str = Form(""),
 ):
     """Handle registration form submission (requires login)"""
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/login?next=/register", status_code=302)
 
+    # Prevent duplicate registrations
+    if has_existing_registration(user["email"]):
+        return templates.TemplateResponse(
+            "register.html",
+            {
+                "request": request,
+                "user": user,
+                "already_registered": True,
+                "error": True,
+                "message": "You have already registered a team.",
+            },
+        )
+
+    # Clamp team_size to 1-4
+    team_size = max(1, min(4, team_size))
+
+    # Build members list based on team_size
+    members = [(m1_name, m1_email, m1_phone)]
+    if team_size >= 2:
+        members.append((m2_name, m2_email, m2_phone))
+    if team_size >= 3:
+        members.append((m3_name, m3_email, m3_phone))
+    if team_size >= 4:
+        members.append((m4_name, m4_email, m4_phone))
+
     # Input validation
     email_re = re.compile(r"^[\w.+-]+@[\w-]+\.[\w.-]+$")
     phone_re = re.compile(r"^[\d\s\+\-()]{7,20}$")
-    for name, email, phone in [
-        (m1_name, m1_email, m1_phone),
-        (m2_name, m2_email, m2_phone),
-        (m3_name, m3_email, m3_phone),
-        (m4_name, m4_email, m4_phone),
-    ]:
+    for name, email, phone in members:
+        if not name.strip():
+            return templates.TemplateResponse(
+                "register.html",
+                {"request": request, "user": user, "error": True, "message": "All member names are required."},
+            )
         if not email_re.match(email):
             return templates.TemplateResponse(
                 "register.html",
@@ -297,18 +355,20 @@ async def submit_registration(
             "team_name": team_name,
             "university": university,
             "problem_statement": problem_statement,
+            "team_size": team_size,
             "leader_name": m1_name,
             "leader_email": m1_email,
             "leader_phone": m1_phone,
-            "member2_name": m2_name,
-            "member2_email": m2_email,
-            "member2_phone": m2_phone,
-            "member3_name": m3_name,
-            "member3_email": m3_email,
-            "member3_phone": m3_phone,
-            "member4_name": m4_name,
-            "member4_email": m4_email,
-            "member4_phone": m4_phone,
+            "member2_name": m2_name if team_size >= 2 else None,
+            "member2_email": m2_email if team_size >= 2 else None,
+            "member2_phone": m2_phone if team_size >= 2 else None,
+            "member3_name": m3_name if team_size >= 3 else None,
+            "member3_email": m3_email if team_size >= 3 else None,
+            "member3_phone": m3_phone if team_size >= 3 else None,
+            "member4_name": m4_name if team_size >= 4 else None,
+            "member4_email": m4_email if team_size >= 4 else None,
+            "member4_phone": m4_phone if team_size >= 4 else None,
+            "registered_by": user["email"],
             "registered_at": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -319,6 +379,7 @@ async def submit_registration(
             {
                 "request": request,
                 "user": user,
+                "already_registered": True,
                 "success": True,
                 "message": "Registration successful! Team lead will receive portal credentials shortly."
             }

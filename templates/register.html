@@ -43,13 +43,30 @@
         </div>
         {% endif %}
 
+        {% if already_registered %}
+        <section class="form-section">
+            <div class="form-container" style="text-align:center; padding:60px 32px;">
+                <h2 style="margin-bottom:12px;">You have Registered! &#127881;</h2>
+                <p class="form-subtitle" style="margin-bottom:32px;">
+                    Your team registration has been submitted successfully.<br>
+                    Complete your registration on Unstop to receive your Team ID and portal credentials.
+                </p>
+                <a href="https://unstop.com" target="_blank" class="btn btn-primary" style="display:inline-block; text-decoration:none; font-size:1.1rem; padding:14px 40px;">
+                    Go to Unstop &rarr;
+                </a>
+                <div style="margin-top:24px;">
+                    <a href="/dashboard" class="back-link">&larr; Back to Dashboard</a>
+                </div>
+            </div>
+        </section>
+        {% else %}
         <section class="form-section">
             <div class="form-container form-container--wide">
                 <div class="reg-header" style="padding:0 0 20px;">
                     <h2>Register Your Team</h2>
                     <a href="/" class="back-link">&larr; Back</a>
                 </div>
-                <p class="form-subtitle">All 4 member details are required. Team lead will receive portal credentials.</p>
+                <p class="form-subtitle">Fill in your team details. Team lead will receive portal credentials.</p>
 
                 <form method="POST" action="/register" class="registration-form">
 
@@ -64,6 +81,18 @@
                             <label for="university">University / Organization</label>
                             <input type="text" id="university" name="university" required placeholder="Your institution">
                         </div>
+                    </div>
+
+                    <!-- Team Size -->
+                    <div class="form-section-label">Team Size</div>
+                    <div class="form-group">
+                        <label for="team_size">How many members in your team?</label>
+                        <select id="team_size" name="team_size" required>
+                            <option value="1">1 — Solo</option>
+                            <option value="2">2 Members</option>
+                            <option value="3">3 Members</option>
+                            <option value="4" selected>4 Members</option>
+                        </select>
                     </div>
 
                     <!-- Problem Statement -->
@@ -95,7 +124,7 @@
                         </select>
                     </div>
 
-                    <!-- Member 1 (Leader) -->
+                    <!-- Member 1 (Leader) — always visible -->
                     <div class="form-section-label">Member 1 — Team Leader</div>
                     <div class="form-row form-row--3">
                         <div class="form-group">
@@ -113,53 +142,59 @@
                     </div>
 
                     <!-- Member 2 -->
-                    <div class="form-section-label">Member 2</div>
-                    <div class="form-row form-row--3">
-                        <div class="form-group">
-                            <label for="m2_name">Full Name</label>
-                            <input type="text" id="m2_name" name="m2_name" required placeholder="Full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="m2_email">Email</label>
-                            <input type="email" id="m2_email" name="m2_email" required placeholder="email@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="m2_phone">Phone</label>
-                            <input type="tel" id="m2_phone" name="m2_phone" required placeholder="+91 98765 43210">
+                    <div id="member2-block" class="member-block">
+                        <div class="form-section-label">Member 2</div>
+                        <div class="form-row form-row--3">
+                            <div class="form-group">
+                                <label for="m2_name">Full Name</label>
+                                <input type="text" id="m2_name" name="m2_name" placeholder="Full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="m2_email">Email</label>
+                                <input type="email" id="m2_email" name="m2_email" placeholder="email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="m2_phone">Phone</label>
+                                <input type="tel" id="m2_phone" name="m2_phone" placeholder="+91 98765 43210">
+                            </div>
                         </div>
                     </div>
 
                     <!-- Member 3 -->
-                    <div class="form-section-label">Member 3</div>
-                    <div class="form-row form-row--3">
-                        <div class="form-group">
-                            <label for="m3_name">Full Name</label>
-                            <input type="text" id="m3_name" name="m3_name" required placeholder="Full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="m3_email">Email</label>
-                            <input type="email" id="m3_email" name="m3_email" required placeholder="email@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="m3_phone">Phone</label>
-                            <input type="tel" id="m3_phone" name="m3_phone" required placeholder="+91 98765 43210">
+                    <div id="member3-block" class="member-block">
+                        <div class="form-section-label">Member 3</div>
+                        <div class="form-row form-row--3">
+                            <div class="form-group">
+                                <label for="m3_name">Full Name</label>
+                                <input type="text" id="m3_name" name="m3_name" placeholder="Full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="m3_email">Email</label>
+                                <input type="email" id="m3_email" name="m3_email" placeholder="email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="m3_phone">Phone</label>
+                                <input type="tel" id="m3_phone" name="m3_phone" placeholder="+91 98765 43210">
+                            </div>
                         </div>
                     </div>
 
                     <!-- Member 4 -->
-                    <div class="form-section-label">Member 4</div>
-                    <div class="form-row form-row--3">
-                        <div class="form-group">
-                            <label for="m4_name">Full Name</label>
-                            <input type="text" id="m4_name" name="m4_name" required placeholder="Full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="m4_email">Email</label>
-                            <input type="email" id="m4_email" name="m4_email" required placeholder="email@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="m4_phone">Phone</label>
-                            <input type="tel" id="m4_phone" name="m4_phone" required placeholder="+91 98765 43210">
+                    <div id="member4-block" class="member-block">
+                        <div class="form-section-label">Member 4</div>
+                        <div class="form-row form-row--3">
+                            <div class="form-group">
+                                <label for="m4_name">Full Name</label>
+                                <input type="text" id="m4_name" name="m4_name" placeholder="Full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="m4_email">Email</label>
+                                <input type="email" id="m4_email" name="m4_email" placeholder="email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="m4_phone">Phone</label>
+                                <input type="tel" id="m4_phone" name="m4_phone" placeholder="+91 98765 43210">
+                            </div>
                         </div>
                     </div>
 
@@ -173,6 +208,7 @@
                 </div>
             </div>
         </section>
+        {% endif %}
 
         <footer class="footer">
             <div class="footer-inner">
@@ -181,6 +217,35 @@
             </div>
         </footer>
     </div>
+
+    <script>
+    (function() {
+        const sizeSelect = document.getElementById('team_size');
+        if (!sizeSelect) return;
+
+        function updateMembers() {
+            const size = parseInt(sizeSelect.value, 10);
+            for (let i = 2; i <= 4; i++) {
+                const block = document.getElementById('member' + i + '-block');
+                if (!block) continue;
+                const visible = i <= size;
+                block.style.display = visible ? '' : 'none';
+                // Toggle required on inputs inside hidden blocks
+                block.querySelectorAll('input').forEach(function(inp) {
+                    if (visible) {
+                        inp.setAttribute('required', '');
+                    } else {
+                        inp.removeAttribute('required');
+                        inp.value = '';
+                    }
+                });
+            }
+        }
+
+        sizeSelect.addEventListener('change', updateMembers);
+        updateMembers();
+    })();
+    </script>
 
 </body>
 </html>
