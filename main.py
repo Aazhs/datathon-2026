@@ -7,17 +7,20 @@ import os
 import re
 from dotenv import load_dotenv
 from datetime import datetime, timezone
+from pathlib import Path
 
 # Load environment variables
 load_dotenv()
 
+BASE_DIR = Path(__file__).resolve().parent
+
 app = FastAPI(title="Datathon 2026")
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 # Setup templates
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 # Initialize Supabase client
 SUPABASE_URL = os.getenv("SUPABASE_URL")
