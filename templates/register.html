@@ -20,6 +20,13 @@
                 <a href="/#timeline">Timeline</a>
                 <a href="/#structure">Rounds</a>
                 <a href="/#pricing">Pricing</a>
+                {% if user %}
+                <span class="nav-name">{{ user.name }}</span>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/logout" class="nav-logout">Logout</a>
+                {% else %}
+                <a href="/login" class="nav-cta">Log In</a>
+                {% endif %}
             </div>
         </div>
     </nav>

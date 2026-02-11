@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Datathon 2026</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">DATATHON<span class="accent">_26</span></a>
+            <div class="nav-links">
+                <a href="/#timeline">Timeline</a>
+                <a href="/#structure">Rounds</a>
+                <a href="/#pricing">Pricing</a>
+                <span class="nav-name">{{ user.name }}</span>
+                <a href="/logout" class="nav-logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrap">
+
+        <section class="form-section">
+            <div class="dash-container">
+                <div class="dash-header">
+                    <h2>Dashboard</h2>
+                    <p>Welcome, <span class="dash-email">{{ user.name }}</span></p>
+                </div>
+
+                <div class="dash-actions">
+                    <a href="/register" class="dash-card">
+                        <h3>Register Team</h3>
+                        <p>Fill in your team details, select a problem statement, and submit your registration.</p>
+                    </a>
+                    <a href="/" class="dash-card">
+                        <h3>View Event</h3>
+                        <p>Check the timeline, rounds, problem statements, and pricing info.</p>
+                    </a>
+                </div>
+
+                <div style="text-align:center; margin-top:40px;">
+                    <a href="/logout" class="btn btn-ghost">Log Out</a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-inner">
+                <span class="nav-logo">DATATHON<span class="accent">_26</span></span>
+                <p>&copy; 2026 Datathon. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

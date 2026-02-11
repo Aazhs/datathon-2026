@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up — Datathon 2026</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">DATATHON<span class="accent">_26</span></a>
+            <div class="nav-links">
+                <a href="/#timeline">Timeline</a>
+                <a href="/#structure">Rounds</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/login" class="nav-cta">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrap">
+
+        {% if success %}
+        <div class="alert alert-success" style="margin-top:24px;">
+            {{ message }}
+        </div>
+        {% elif error %}
+        <div class="alert alert-error" style="margin-top:24px;">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <section class="form-section">
+            <div class="form-container auth-container">
+                <div class="auth-header">
+                    <h2>Create Account</h2>
+                    <p class="form-subtitle">Sign up for the Datathon 2026 portal</p>
+                </div>
+
+                <form method="POST" action="/signup" class="auth-form" id="signupForm">
+
+                    <div class="form-group">
+                        <label for="full_name">Team Leader Name</label>
+                        <input type="text" id="full_name" name="full_name" required placeholder="Your full name" autocomplete="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required placeholder="Min 6 characters" minlength="6" autocomplete="new-password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required placeholder="Repeat your password" autocomplete="new-password">
+                    </div>
+
+                    <div class="password-hint" id="passwordHint" style="display:none;">
+                        Passwords do not match.
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="/login">Log in</a></p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-inner">
+                <span class="nav-logo">DATATHON<span class="accent">_26</span></span>
+                <p>&copy; 2026 Datathon. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const pw = document.getElementById('password');
+        const cpw = document.getElementById('confirm_password');
+        const hint = document.getElementById('passwordHint');
+
+        function checkMatch() {
+            if (cpw.value && pw.value !== cpw.value) {
+                hint.style.display = 'block';
+            } else {
+                hint.style.display = 'none';
+            }
+        }
+
+        pw.addEventListener('input', checkMatch);
+        cpw.addEventListener('input', checkMatch);
+
+        form.addEventListener('submit', function(e) {
+            if (pw.value !== cpw.value) {
+                e.preventDefault();
+                hint.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>

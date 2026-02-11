@@ -21,7 +21,14 @@
                 <a href="#structure">Rounds</a>
                 <a href="#problems">Problems</a>
                 <a href="#pricing">Pricing</a>
-                <a href="/register" class="nav-cta">Register</a>
+                {% if user %}
+                <span class="nav-name">{{ user.name }}</span>
+                <a href="/dashboard" class="nav-cta">Dashboard</a>
+                <a href="/logout" class="nav-logout">Logout</a>
+                {% else %}
+                <a href="/login">Login</a>
+                <a href="/signup" class="nav-cta">Sign Up</a>
+                {% endif %}
             </div>
             <button class="nav-toggle" aria-label="Menu">
                 <span></span><span></span><span></span>

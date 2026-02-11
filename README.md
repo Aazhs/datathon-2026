@@ -9,9 +9,19 @@ Registration website for Datathon 2026 — a multi-round data science competitio
 - Dark cyberpunk/gaming themed UI (monospace headings, neon accents, `#0a0a0a` background)
 - Playable HTML5 Canvas space shooter embedded in the hero section
 - Event timeline, round structure, pricing, and registration flow
+- **Authentication** — Supabase Auth with signup, login, logout, and session refresh
 - Registration form backed by Supabase (PostgreSQL)
 - Fully responsive — mobile touch controls for the game
 - No external image assets — all visuals are geometric/CSS
+
+## Security
+
+- HTTP-only & Secure cookies for auth tokens (Secure flag auto-enabled in production via `ENV=production`)
+- `SameSite=lax` cookies to mitigate CSRF
+- Open-redirect prevention on login `next` parameter
+- Server-side input validation (email & phone format) on registration
+- Internal error messages are logged server-side and never leaked to users
+- Passwords enforced to be ≥ 6 characters
 
 ## Quick Start
 
@@ -44,6 +54,7 @@ Create a `.env` file with:
 ```
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_KEY=your-anon-key
+ENV=production          # enables Secure cookie flag (omit for local dev)
 ```
 
 Get these from [Supabase](https://supabase.com) → Project Settings → API.
@@ -78,15 +89,19 @@ CREATE TABLE registrations (
 
 ```
 datathon-2026/
-├── main.py                 # FastAPI app (routes, Supabase client)
+├── main.py                 # FastAPI app (routes, auth, Supabase client)
 ├── requirements.txt        # Python dependencies
 ├── .env                    # Supabase credentials (not committed)
 ├── templates/
 │   ├── landing.html        # Landing page (hero, timeline, rounds, pricing)
-│   └── register.html       # Registration form
+│   ├── signup.html         # Account creation page
+│   ├── login.html          # Login page
+│   ├── dashboard.html      # Authenticated dashboard
+│   └── register.html       # Team registration form
 └── static/
     ├── css/
     │   └── style.css       # Dark/cyberpunk theme
+    ├── images/
     └── js/
         └── space-shooter.js # Canvas space shooter game
 ```
@@ -96,8 +111,15 @@ datathon-2026/
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | Landing page |
-| GET | `/register` | Registration form |
-| POST | `/register` | Submit registration |
+| GET | `/signup` | Signup form |
+| POST | `/signup` | Create account |
+| GET | `/login` | Login form |
+| POST | `/login` | Authenticate |
+| GET | `/logout` | Log out & clear session |
+| GET | `/dashboard` | Authenticated dashboard |
+| GET | `/register` | Team registration form (auth required) |
+| POST | `/register` | Submit registration (auth required) |
+| GET | `/health` | Health check |
 
 ## Space Shooter Controls
 
