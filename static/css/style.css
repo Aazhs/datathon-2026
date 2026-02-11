@@ -1057,3 +1057,30 @@ a:hover { text-decoration: underline; }
     .ps-grid { grid-template-columns: 1fr; }
     .form-row, .form-row--3 { grid-template-columns: 1fr; }
 }
+
+/* 1. The Outer Ring (The "Target" Box) */
+#magicMouseCursor {
+    border: 1px solid #39ff14 !important; /* Neon Cyan Border */
+    background-color: rgba(255, 255, 255, 0) !important; /* Faint fill */
+    box-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14 !important; /* The Glow */
+    border-radius: 0 !important; /* Forces it to be a sharp square */
+    mix-blend-mode: exclusion !important; /* Makes it invert colors over text */
+    z-index: 999999 !important;
+}
+
+/* 2. The Inner Dot (The actual pointer) */
+#magicPointer {
+    background-color: #39ff14 !important; /* Neon Cyan Dot */
+    box-shadow: 0 0 5px #39ff14 !important; /* Tiny glow on dot */
+    border-radius: 0 !important; /* Square dot */
+    width: 6px !important;
+    height: 6px !important;
+}
+
+/* 3. OPTIONAL: Make it rotate continuously for a HUD effect */
+@keyframes spin { 
+    from { transform: translate(-50%, -50%) rotate(0deg); } 
+    to { transform: translate(-50%, -50%) rotate(360deg); } 
+}
+/* Uncomment the line below to enable rotation */
+/* #magicMouseCursor { animation: spin 4s linear infinite; } */
