@@ -155,31 +155,22 @@ const HeroGame = (() => {
     ctx.fillText(String(score), 16, H - 16);
     ctx.globalAlpha = 1;
 
-    // Game Over — anchored to bottom
+    // Game Over — bottom left corner
     if (gameOver) {
-      // Dim bottom band
-      const bandH = 120;
-      const bandY = H - bandH;
-      const grad = ctx.createLinearGradient(0, bandY - 40, 0, bandY + 10);
-      grad.addColorStop(0, 'rgba(10,10,10,0)');
-      grad.addColorStop(1, 'rgba(10,10,10,.85)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, bandY - 40, W, bandH + 40);
-
-      ctx.textAlign = 'center';
+      ctx.textAlign = 'left';
       ctx.shadowColor = PINK; ctx.shadowBlur = 16;
       ctx.fillStyle = PINK;
-      ctx.font = 'bold 32px "JetBrains Mono","Courier New",monospace';
-      ctx.fillText('GAME OVER', W / 2, H - 70);
+      ctx.font = 'bold 28px "JetBrains Mono","Courier New",monospace';
+      ctx.fillText('GAME OVER', 24, H - 90);
       ctx.shadowBlur = 0;
 
       ctx.fillStyle = NEON;
       ctx.font = '16px "JetBrains Mono","Courier New",monospace';
-      ctx.fillText('SCORE: ' + score, W / 2, H - 42);
+      ctx.fillText('SCORE: ' + score, 24, H - 60);
 
       ctx.fillStyle = '#666';
       ctx.font = '12px "JetBrains Mono","Courier New",monospace';
-      ctx.fillText(isMobile ? 'Tap to restart' : 'ENTER to restart', W / 2, H - 18);
+      ctx.fillText(isMobile ? 'Tap to restart' : 'ENTER to restart', 24, H - 36);
     }
   }
 
