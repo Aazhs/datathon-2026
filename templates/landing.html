@@ -7,7 +7,10 @@
     <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/audiowide/v20/l7gdbjpo0qta49vK0wR3-A.woff2" type="font/woff2" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=block" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -15,12 +18,14 @@
     <!-- ── NAV ──────────────────────────────────────────── -->
     <nav class="nav">
         <div class="nav-inner">
-            <a href="/" class="nav-logo">DATATHON<span class="accent">_26</span></a>
+            <a href="/" class="nav-logo" style="display: flex; align-items: center; gap: 8px;">
+                <span style="display: inline-block; vertical-align: middle;">DATATHON<span class="accent"> 26</span></span>
+                <img src="/static/images/girlscript-logo.png" alt="Girlscript Logo" class="presented-logo">
+            </a>
             <div class="nav-links">
                 <a href="#timeline">Timeline</a>
                 <a href="#structure">Rounds</a>
                 <a href="#problems">Problems</a>
-                <a href="#pricing">Pricing</a>
                 {% if user %}
                 <span class="nav-name">{{ user.name }}</span>
                 <a href="/dashboard" class="nav-cta magic-hover magic-hover__square">Dashboard</a>
@@ -42,10 +47,9 @@
         <div class="hero-overlay">
             <div class="presented-by">
                 <span>Presented by <strong>GirlScript Club MITAOE</strong></span>
-                <img src="/static/images/girlscript-logo.jpg" alt="GirlScript" class="presented-logo">
+                <img src="/static/images/girlscript-logo.png" alt="GirlScript" class="presented-logo">
             </div>
-            <p class="hero-tag">March 5 &ndash; 28, 2026</p>
-            <h1>DATATHON<span class="accent"> 2026</span></h1>
+            <h1>DATATHON<span class="accent">-2026</span></h1>
             <p class="hero-sub">Solve real-world problem statements. Build. Present. Win.</p>
             <div class="hero-btns">
                 <a href="/register" class="btn btn-primary magic-hover magic-hover__square" >Register on Unstop</a>
@@ -162,141 +166,123 @@
         <div class="section-inner section-inner--wide">
             <h2 class="section-title">Problem Statements</h2>
             <p class="section-desc">Choose one during registration. Allocation is first-come, first-served.</p>
-            <div class="ps-grid">
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-01</span>
-                    <h4>Predictive Healthcare Analytics</h4>
-                    <p>Build a model to predict patient readmission rates using historical medical records and demographic data.</p>
+            <div class="ps-carousel-container">
+                <div class="ps-carousel-track">
+                    <div class="ps-grid">
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-01</span>
+                            <h4>Predictive Healthcare Analytics</h4>
+                            <p>Build a model to predict patient readmission rates using historical medical records and demographic data.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-02</span>
+                            <h4>Smart Traffic Management</h4>
+                            <p>Design a real-time traffic signal optimization system using sensor data and vehicle flow patterns.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-03</span>
+                            <h4>Fake News Detection</h4>
+                            <p>Develop an NLP pipeline to classify news articles as genuine or fabricated with explainability scores.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-04</span>
+                            <h4>Crop Yield Prediction</h4>
+                            <p>Predict seasonal crop yields using weather, soil quality, and satellite imagery datasets.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-05</span>
+                            <h4>Financial Fraud Detection</h4>
+                            <p>Identify fraudulent transactions from banking data using anomaly detection and pattern recognition.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-06</span>
+                            <h4>Energy Consumption Forecasting</h4>
+                            <p>Forecast electricity demand for a smart grid using time-series analysis on consumption logs.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-07</span>
+                            <h4>Customer Churn Analysis</h4>
+                            <p>Predict which customers are likely to leave a subscription service and suggest retention strategies.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-08</span>
+                            <h4>Air Quality Index Prediction</h4>
+                            <p>Build a forecasting model for AQI levels in urban areas using meteorological and pollution data.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-09</span>
+                            <h4>Supply Chain Optimization</h4>
+                            <p>Optimize warehouse-to-retailer logistics using demand forecasting and route planning algorithms.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-10</span>
+                            <h4>Sentiment Analysis on Reviews</h4>
+                            <p>Analyze product reviews at scale to extract sentiment trends and actionable business insights.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-11</span>
+                            <h4>Disaster Response Mapping</h4>
+                            <p>Use satellite and social media data to map affected areas in real-time during natural disasters.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-12</span>
+                            <h4>Automated Resume Screening</h4>
+                            <p>Build a system to rank and shortlist resumes based on job descriptions using NLP techniques.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-13</span>
+                            <h4>Water Quality Monitoring</h4>
+                            <p>Classify water samples as safe or contaminated using IoT sensor readings and chemical analysis data.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-14</span>
+                            <h4>Education Dropout Prediction</h4>
+                            <p>Identify at-risk students likely to drop out using attendance, grades, and socioeconomic indicators.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-15</span>
+                            <h4>Real Estate Price Estimation</h4>
+                            <p>Predict property prices using location features, amenities, market trends, and historical sales data.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-16</span>
+                            <h4>Cybersecurity Threat Detection</h4>
+                            <p>Detect network intrusions and classify attack types using system logs and traffic flow data.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-17</span>
+                            <h4>Sports Performance Analytics</h4>
+                            <p>Analyze player performance metrics to predict match outcomes and suggest team composition strategies.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-18</span>
+                            <h4>Personalized Learning Paths</h4>
+                            <p>Recommend customized study plans for students based on learning behavior and assessment performance.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-19</span>
+                            <h4>Urban Waste Management</h4>
+                            <p>Optimize garbage collection routes and predict bin overflow times using IoT and historical data.</p>
+                        </div>
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <span class="ps-id">PS-20</span>
+                            <h4>Social Media Trend Forecasting</h4>
+                            <p>Predict trending topics and viral content patterns using engagement metrics and temporal analysis.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-02</span>
-                    <h4>Smart Traffic Management</h4>
-                    <p>Design a real-time traffic signal optimization system using sensor data and vehicle flow patterns.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-03</span>
-                    <h4>Fake News Detection</h4>
-                    <p>Develop an NLP pipeline to classify news articles as genuine or fabricated with explainability scores.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-04</span>
-                    <h4>Crop Yield Prediction</h4>
-                    <p>Predict seasonal crop yields using weather, soil quality, and satellite imagery datasets.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-05</span>
-                    <h4>Financial Fraud Detection</h4>
-                    <p>Identify fraudulent transactions from banking data using anomaly detection and pattern recognition.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-06</span>
-                    <h4>Energy Consumption Forecasting</h4>
-                    <p>Forecast electricity demand for a smart grid using time-series analysis on consumption logs.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-07</span>
-                    <h4>Customer Churn Analysis</h4>
-                    <p>Predict which customers are likely to leave a subscription service and suggest retention strategies.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-08</span>
-                    <h4>Air Quality Index Prediction</h4>
-                    <p>Build a forecasting model for AQI levels in urban areas using meteorological and pollution data.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-09</span>
-                    <h4>Supply Chain Optimization</h4>
-                    <p>Optimize warehouse-to-retailer logistics using demand forecasting and route planning algorithms.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-10</span>
-                    <h4>Sentiment Analysis on Reviews</h4>
-                    <p>Analyze product reviews at scale to extract sentiment trends and actionable business insights.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-11</span>
-                    <h4>Disaster Response Mapping</h4>
-                    <p>Use satellite and social media data to map affected areas in real-time during natural disasters.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-12</span>
-                    <h4>Automated Resume Screening</h4>
-                    <p>Build a system to rank and shortlist resumes based on job descriptions using NLP techniques.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-13</span>
-                    <h4>Water Quality Monitoring</h4>
-                    <p>Classify water samples as safe or contaminated using IoT sensor readings and chemical analysis data.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-14</span>
-                    <h4>Education Dropout Prediction</h4>
-                    <p>Identify at-risk students likely to drop out using attendance, grades, and socioeconomic indicators.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-15</span>
-                    <h4>Real Estate Price Estimation</h4>
-                    <p>Predict property prices using location features, amenities, market trends, and historical sales data.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-16</span>
-                    <h4>Cybersecurity Threat Detection</h4>
-                    <p>Detect network intrusions and classify attack types using system logs and traffic flow data.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-17</span>
-                    <h4>Sports Performance Analytics</h4>
-                    <p>Analyze player performance metrics to predict match outcomes and suggest team composition strategies.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-18</span>
-                    <h4>Personalized Learning Paths</h4>
-                    <p>Recommend customized study plans for students based on learning behavior and assessment performance.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-19</span>
-                    <h4>Urban Waste Management</h4>
-                    <p>Optimize garbage collection routes and predict bin overflow times using IoT and historical data.</p>
-                </div>
-                <div class="ps-card magic-hover magic-hover__square">
-                    <span class="ps-id">PS-20</span>
-                    <h4>Social Media Trend Forecasting</h4>
-                    <p>Predict trending topics and viral content patterns using engagement metrics and temporal analysis.</p>
+                <div class="ps-nav">
+                    <button class="ps-nav-btn ps-nav-btn--prev magic-hover magic-hover__square" aria-label="Previous problem statements">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button class="ps-nav-btn ps-nav-btn--next magic-hover magic-hover__square" aria-label="Next problem statements">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ── PRICING ──────────────────────────────────────── -->
-    <section class="section section--alt" id="pricing">
-        <div class="section-inner">
-            <h2 class="section-title">Pricing</h2>
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <span class="price-badge">Early Bird</span>
-                    <div class="price-amount">&#8377;149<span>/team</span></div>
-                    <ul class="price-features">
-                        <li>Team of 4 members</li>
-                        <li>Access to all rounds</li>
-                        <li>FCFS problem statement pick</li>
-                        <li>Portal login credentials</li>
-                    </ul>
-                    <a href="/register" class="btn btn-primary btn-full magic-hover magic-hover__square">Register Now</a>
-                </div>
-                <div class="price-card">
-                    <span class="price-badge price-badge--regular">Regular</span>
-                    <div class="price-amount">&#8377;199<span>/team</span></div>
-                    <ul class="price-features">
-                        <li>Team of 4 members</li>
-                        <li>Access to all rounds</li>
-                        <li>Problem statement allocation</li>
-                        <li>Portal login credentials</li>
-                    </ul>
-                    <a href="/register" class="btn btn-ghost btn-full magic-hover magic-hover__square">Register</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ── HOW IT WORKS ─────────────────────────────────── -->
     <section class="section section--alt" id="how">

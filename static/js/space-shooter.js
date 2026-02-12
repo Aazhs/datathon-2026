@@ -9,8 +9,11 @@ const HeroGame = (() => {
   let isMobile = false;
   const keys = {};
   let touchX = null, autoFire = false;
+  let heroTextEl, heroTextRect;
+  let touchStartX = null, touchStartY = null, isScrolling = null;
 
   const BG = '#0a0a0a', NEON = '#39ff14', PINK = '#ff2079', CYAN = '#00f0ff';
+  const NEON_COLORS = ['#ff2079', '#00f0ff', '#ff9f00', '#f8f32b', '#ff00ff'];
   const rand = (a, b) => Math.random() * (b - a) + a;
 
   /* ── stars ─────────────────────────────────────────────── */
@@ -76,7 +79,8 @@ const HeroGame = (() => {
       // Enemies
       if (ts - lastSpawn > spawnRate) {
         const sz = rand(20, 30);
-        enemies.push({ x: rand(sz, W - sz), y: -sz, sz, sp: rand(1.5, 3) + score * 0.008, rot: 0, rs: rand(-0.03, 0.03) });
+        const color = NEON_COLORS[Math.floor(Math.random() * NEON_COLORS.length)];
+        enemies.push({ x: rand(sz, W - sz), y: -sz, sz, sp: rand(1.5, 3) + score * 0.008, rot: 0, rs: rand(-0.03, 0.03), explodedOnText: false, color: color });
         lastSpawn = ts;
         if (spawnRate > 400) spawnRate -= 2;
       }
@@ -84,6 +88,25 @@ const HeroGame = (() => {
       for (let i = enemies.length - 1; i >= 0; i--) {
         const e = enemies[i];
         e.y += e.sp; e.rot += e.rs;
+        
+        if (heroTextRect) {
+            const canvasRect = canvas.getBoundingClientRect();
+            // Translate heroTextRect to be relative to the canvas
+            const textTop = heroTextRect.top - canvasRect.top;
+            const textBottom = heroTextRect.bottom - canvasRect.top;
+            const textLeft = heroTextRect.left - canvasRect.left;
+            const textRight = heroTextRect.right - canvasRect.left;
+
+            // Check if enemy center is inside the text bounding box and hasn't exploded yet
+            if (!e.explodedOnText && e.y > textTop && e.y < textBottom && e.x > textLeft && e.x < textRight) {
+                explode(e.x, e.y, NEON); // Use CYAN for this explosion
+                e.explodedOnText = true; // Mark as exploded
+                e.sp *= 0.7; // Reduce speed by 30%
+                score += 5; // Give a few points
+                // No 'continue' here, enemy should still be able to hit player/bullet
+            }
+        }
+        
         if (e.y > H + 40) { enemies.splice(i, 1); continue; }
 
         // Hit player
@@ -97,7 +120,7 @@ const HeroGame = (() => {
         for (let j = bullets.length - 1; j >= 0; j--) {
           const b = bullets[j];
           if (Math.abs(b.x - e.x) < e.sz / 2 + 3 && Math.abs(b.y - e.y) < e.sz / 2 + 6) {
-            explode(e.x, e.y, PINK);
+            explode(e.x, e.y, e.color);
             enemies.splice(i, 1); bullets.splice(j, 1);
             score += 10; break;
           }
@@ -121,13 +144,16 @@ const HeroGame = (() => {
       ctx.shadowBlur = 0;
 
       // Draw enemies
-      ctx.shadowColor = PINK; ctx.shadowBlur = 10;
       for (const e of enemies) {
+        ctx.shadowColor = e.color;
+        ctx.shadowBlur = 18;
         ctx.save(); ctx.translate(e.x, e.y); ctx.rotate(e.rot);
-        ctx.strokeStyle = PINK; ctx.lineWidth = 1.5;
+        ctx.strokeStyle = e.color;
+        ctx.lineWidth = 1.5;
         const h = e.sz / 2;
         ctx.strokeRect(-h, -h, e.sz, e.sz);
-        ctx.fillStyle = 'rgba(255,32,121,.12)'; ctx.fillRect(-h, -h, e.sz, e.sz);
+        ctx.fillStyle = e.color.substring(0, 7) + '1f';
+        ctx.fillRect(-h, -h, e.sz, e.sz);
         ctx.restore();
       }
       ctx.shadowBlur = 0;
@@ -180,6 +206,9 @@ const HeroGame = (() => {
     W = canvas.width = p.clientWidth;
     H = canvas.height = p.clientHeight;
     if (player) { player.x = Math.min(player.x, W - player.w); player.y = H - 70; }
+    if (heroTextEl) {
+        heroTextRect = heroTextEl.getBoundingClientRect();
+    }
     makeStars();
   }
 
@@ -189,6 +218,8 @@ const HeroGame = (() => {
     if (!canvas) return;
     ctx = canvas.getContext('2d');
     isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    heroTextEl = document.querySelector('.hero-overlay h1');
 
     resize();
     window.addEventListener('resize', resize);
@@ -201,23 +232,51 @@ const HeroGame = (() => {
     });
     window.addEventListener('keyup', e => { keys[e.key] = false; });
 
-    // Touch — move + auto-shoot
+    // Touch controls
     canvas.addEventListener('touchstart', e => {
-      e.preventDefault();
-      if (gameOver) { restart(); return; }
-      const r = canvas.getBoundingClientRect();
-      touchX = e.touches[0].clientX - r.left;
-      autoFire = true;
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        isScrolling = null; // Reset on new touch
     }, { passive: false });
 
     canvas.addEventListener('touchmove', e => {
-      e.preventDefault();
-      touchX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+        if (!touchStartX || !touchStartY) {
+            return;
+        }
+
+        const touch = e.touches[0];
+        const diffX = touch.clientX - touchStartX;
+        const diffY = touch.clientY - touchStartY;
+
+        if (isScrolling === null) {
+            // Determine intent after a small threshold of movement
+            if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
+                isScrolling = Math.abs(diffY) > Math.abs(diffX);
+            }
+        }
+
+        if (isScrolling === false) {
+            e.preventDefault(); // This is a horizontal game gesture, prevent scrolling
+            touchX = touch.clientX - canvas.getBoundingClientRect().left;
+            if (!autoFire) autoFire = true; // Start shooting on horizontal move
+        }
     }, { passive: false });
 
-    canvas.addEventListener('touchend', () => { touchX = null; autoFire = false; });
+    canvas.addEventListener('touchend', () => {
+        // This handles a tap-to-restart when the game is over,
+        // if no scrolling or swiping has occurred.
+        if (isScrolling === null && gameOver) {
+            restart();
+        }
+        touchStartX = null;
+        touchStartY = null;
+        isScrolling = null;
+        touchX = null;
+        autoFire = false;
+    });
 
-    // Click restart
+    // Click restart (for desktop)
     canvas.addEventListener('click', () => { if (gameOver) restart(); });
 
     restart();
@@ -231,3 +290,149 @@ const HeroGame = (() => {
 
   return { init, destroy };
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const statsBar = document.querySelector('.stats-bar');
+    if (!statsBar) return;
+
+    const animateCount = (el) => {
+        const originalText = el.dataset.original;
+        let targetStart, targetEnd;
+        let isRange = false;
+
+        if (originalText.includes('–')) {
+            [targetStart, targetEnd] = originalText.split('–').map(Number);
+            isRange = true;
+        } else {
+            targetEnd = Number(originalText);
+        }
+
+        const duration = 2000; // 2 seconds
+        let startTime = null;
+
+        const step = (timestamp) => {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            
+            if (isRange) {
+                const currentStart = Math.floor(progress * targetStart);
+                const currentEnd = Math.floor(progress * targetEnd);
+                el.textContent = `${currentStart}–${currentEnd}`;
+            } else {
+                el.textContent = Math.floor(progress * targetEnd);
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = originalText; // Set to final original text when done
+            }
+        };
+        
+        if(isRange){
+            el.textContent = "0–0";
+        } else {
+            el.textContent = "0";
+        }
+
+        requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statNumbers = entry.target.querySelectorAll('.stat-num');
+                statNumbers.forEach(numEl => {
+                    numEl.dataset.original = numEl.textContent;
+                    animateCount(numEl);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+
+    observer.observe(statsBar);
+
+    // Problem Statement Carousel
+    const psTrack = document.querySelector('.ps-carousel-track');
+    const psGrid = document.querySelector('.ps-grid');
+    const psNextBtn = document.querySelector('.ps-nav-btn--next');
+    const psPrevBtn = document.querySelector('.ps-nav-btn--prev');
+
+    if (psTrack && psGrid && psNextBtn && psPrevBtn) {
+        let currentIndex = 0;
+        let slideWidth = 0;
+        let slidesInView = 0;
+        const cardGap = 16;
+
+        const updateCarouselDimensions = () => {
+            const firstCard = psGrid.querySelector('.ps-card');
+            if (!firstCard) return;
+
+            const cardWidth = firstCard.offsetWidth;
+            slidesInView = Math.floor(psTrack.offsetWidth / (cardWidth + cardGap));
+            slideWidth = (cardWidth + cardGap) * slidesInView;
+            
+            updateCarousel();
+        };
+
+        const updateButtons = () => {
+            const totalCards = psGrid.children.length;
+            const maxIndex = Math.ceil(totalCards / slidesInView) - 1;
+
+            psPrevBtn.disabled = currentIndex === 0;
+            psNextBtn.disabled = currentIndex >= maxIndex;
+        };
+
+        const updateCarousel = () => {
+            psGrid.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            updateButtons();
+        };
+
+        psNextBtn.addEventListener('click', () => {
+            const totalCards = psGrid.children.length;
+            const maxIndex = Math.ceil(totalCards / slidesInView) - 1;
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        psPrevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        window.addEventListener('resize', updateCarouselDimensions);
+
+        // Initial setup
+        updateCarouselDimensions();
+    }
+
+    // Timeline Animation
+    const timelineItems = document.querySelectorAll('.tl-item');
+    if (timelineItems.length > 0) {
+        const timelineObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Use the actual index from a data attribute if order matters, otherwise this is fine
+                    entry.target.style.transitionDelay = `${(entry.target.dataset.index || index) * 150}ms`;
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1, // Trigger when 10% of the item is visible
+            rootMargin: '0px 0px -50px 0px' // Start animation a bit before it's fully in view
+        });
+
+        timelineItems.forEach((item, index) => {
+            item.dataset.index = index;
+            timelineObserver.observe(item);
+        });
+    }
+});
