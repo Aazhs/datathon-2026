@@ -240,6 +240,22 @@ a:hover {
     max-width: 520px;
     margin: 20px 0 36px;
     line-height: 1.7;
+    min-height: 58px; /* Approx 2 lines of text to prevent jump */
+}
+
+.hero-sub .cursor {
+    display: inline-block;
+    background-color: var(--accent);
+    margin-left: 4px;
+    width: 10px;
+    height: 1.2rem;
+    animation: blink 0.7s infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .presented-by {
@@ -300,8 +316,6 @@ a:hover {
     justify-content: flex-end; /* Align content to the right */
     width: auto; /* Allow width to adjust to content */
 }
-
-.game-hint-title { /* REMOVED THIS RULE */ }
 
 .game-hint--mobile { display: none; }
 
@@ -391,7 +405,7 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     max-width: 1200px;
-    margin: 80px auto 0; /* Added margin-top */
+    margin: 60px auto;
     border-bottom: 1px solid var(--border);
     box-shadow: 0 0 20px rgba(57, 255, 20, 0.1); /* Subtle overall glow */
     background: rgba(17, 17, 17, 0.5); /* Slightly darker background to make text pop */
@@ -427,13 +441,14 @@ a:hover {
 
 /* ── SECTIONS ───────────────────────────────────────────── */
 .section {
-    padding: 80px 24px;
+    padding: 40px 24px;
 }
 
 .section--alt {
     background: var(--surface);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
+    padding: 40px 24px;
 }
 
 .section-inner {
@@ -833,9 +848,32 @@ a:hover {
     justify-content: space-between;
 }
 
-.footer p {
+.footer-col p {
     font-size: 0.8rem;
     color: var(--text-dim);
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-contact {
+    align-items: flex-end;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+}
+
+.footer-contact a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color .2s, text-shadow .3s;
+}
+
+.footer-contact a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
 }
 
 /* ── FORM (register page) ──────────────────────────────── */
@@ -1242,6 +1280,21 @@ a:hover {
     .dash-actions {
         grid-template-columns: 1fr;
     }
+
+    /* Smaller Marquee for Mobile */
+    .marquee-container {
+        height: 60px;
+    }
+    .sponsor-logo {
+        height: 30px;
+        width: 30px;
+    }
+    .sponsor-name {
+        font-size: 0.8rem;
+    }
+    .marquee-content > * {
+        margin: 0 25px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1263,7 +1316,6 @@ a:hover {
     background-color: rgba(255, 255, 255, 0) !important; /* Faint fill */
     box-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14 !important; /* The Glow */
     border-radius: 0 !important; /* Forces it to be a sharp square */
-    mix-blend-mode: exclusion !important; /* Makes it invert colors over text */
     z-index: 999999 !important;
 }
 
@@ -1283,3 +1335,59 @@ a:hover {
 }
 /* Uncomment the line below to enable rotation */
 /* #magicMouseCursor { animation: spin 4s linear infinite; } */
+
+/* ── SPONSORS MARQUEE ───────────────────────────────────── */
+.marquee-container {
+    overflow: hidden;
+    margin: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex; /* Use flexbox for vertical centering */
+    align-items: center; /* Vertically center content */
+    height: 80px; /* Explicit height for the container, adjust as needed */
+}
+
+.marquee-content {
+    display: flex; /* Make it a flex container to align items horizontally */
+    animation: marquee-scroll 30s linear infinite; /* Adjust speed as needed */
+    flex-shrink: 0; /* Prevent content from shrinking */
+    will-change: transform; /* Optimize animation performance */
+}
+
+.marquee-content > * {
+    display: flex; /* Ensure each sponsor item is a flex container */
+    align-items: center; /* Vertically align logo and name */
+    margin: 0 40px;
+    flex-shrink: 0; /* Prevent items from shrinking within marquee */
+}
+
+.sponsor-logo {
+    height: 40px;
+    width: 40px; /* Set fixed width for round shape */
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(100%) brightness(50%);
+    transition: filter 0.3s ease;
+}
+
+.sponsor-name {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-left: 16px;
+    transition: color .3s, text-shadow .3s;
+}
+
+.marquee-content > *:hover .sponsor-logo {
+    filter: grayscale(0%) brightness(100%);
+}
+
+.marquee-content > *:hover .sponsor-name {
+    color: var(--text);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes marquee-scroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(calc(-100% / 2)); } /* Scrolls half the content length */
+}

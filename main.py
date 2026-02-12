@@ -173,11 +173,19 @@ async def signup_submit(
             "signup.html",
             {"request": request, "error": True, "message": "Passwords do not match."},
         )
-    if len(password) < 6:
+
+    # Password complexity validation
+    password_pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$"
+    if not re.match(password_pattern, password):
         return templates.TemplateResponse(
             "signup.html",
-            {"request": request, "error": True, "message": "Password must be at least 6 characters."},
+            {
+                "request": request,
+                "error": True,
+                "message": "Password does not meet requirements. Must be 8+ characters with uppercase, lowercase, number, and a special character.",
+            },
         )
+
     if not supabase:
         return templates.TemplateResponse(
             "signup.html",

@@ -299,15 +299,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalText = el.dataset.original;
         let targetStart, targetEnd;
         let isRange = false;
+        let suffix = '';
 
         if (originalText.includes('–')) {
             [targetStart, targetEnd] = originalText.split('–').map(Number);
             isRange = true;
         } else {
-            targetEnd = Number(originalText);
+            // Use parseInt which handles strings like "100+" correctly
+            targetEnd = parseInt(originalText, 10);
+            // Check for a non-numeric suffix (like the '+' sign)
+            const match = originalText.match(/(\d+)(.*)/);
+            if (match && match[2]) {
+                suffix = match[2];
+            }
         }
 
-        const duration = 2000; // 2 seconds
+        const duration = 1000; // 1 second (faster animation)
         let startTime = null;
 
         const step = (timestamp) => {
@@ -319,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentEnd = Math.floor(progress * targetEnd);
                 el.textContent = `${currentStart}–${currentEnd}`;
             } else {
-                el.textContent = Math.floor(progress * targetEnd);
+                el.textContent = Math.floor(progress * targetEnd) + suffix;
             }
 
             if (progress < 1) {
@@ -332,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(isRange){
             el.textContent = "0–0";
         } else {
-            el.textContent = "0";
+            el.textContent = "0" + suffix;
         }
 
         requestAnimationFrame(step);
