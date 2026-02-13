@@ -6,6 +6,7 @@ const HeroGame = (() => {
   let canvas, ctx, W, H, animId;
   let score, gameOver, lastSpawn, spawnRate, shootCD;
   let player, bullets, enemies, particles, stars;
+  let shootingStars, lastShootingStar, shootingStarSpawnRate;
   let isMobile = false;
   const keys = {};
   let touchX = null, autoFire = false;
@@ -17,7 +18,7 @@ const HeroGame = (() => {
 
   /* ── stars ─────────────────────────────────────────────── */
   function makeStars() {
-    stars = Array.from({ length: 140 }, () => ({
+    stars = Array.from({ length: 200 }, () => ({
       x: rand(0, W), y: rand(0, H),
       r: rand(0.4, 1.5), sp: rand(0.2, 1), a: rand(0.3, 0.9),
     }));
@@ -27,7 +28,9 @@ const HeroGame = (() => {
   function restart() {
     score = 0; gameOver = false; shootCD = 0;
     spawnRate = 900; lastSpawn = 0;
-    bullets = []; enemies = []; particles = [];
+    bullets = []; enemies = []; particles = []; shootingStars = [];
+    lastShootingStar = 0;
+    shootingStarSpawnRate = rand(2000, 5000);
     player = { x: W / 2, y: H - 50, w: 44, h: 41, sp: isMobile ? 5 : 9 };
   }
 
@@ -39,7 +42,7 @@ const HeroGame = (() => {
   }
 
   function explode(x, y, c) {
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 5; i++) {
       const a = rand(0, 6.28), s = rand(1.5, 3.5);
       particles.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1, c });
     }
@@ -58,6 +61,46 @@ const HeroGame = (() => {
       ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.28); ctx.fill();
     }
     ctx.globalAlpha = 1;
+
+    // Shooting Stars
+    if (ts - lastShootingStar > shootingStarSpawnRate) {
+        const fromTop = Math.random() > 0.5;
+        const x = rand(0, W);
+        const y = fromTop ? 0 : H;
+        const speed = rand(15, 25);
+
+        shootingStars.push({
+            x, y,
+            len: rand(100, 200),
+            vx: rand(-1, 1),
+            vy: fromTop ? speed : -speed,
+            life: 80
+        });
+
+        lastShootingStar = ts;
+        shootingStarSpawnRate = rand(2000, 8000);
+    }
+
+    for (let i = shootingStars.length - 1; i >= 0; i--) {
+        const ss = shootingStars[i];
+        ss.x += ss.vx;
+        ss.y += ss.vy;
+        ss.life--;
+
+        if (ss.life <= 0) {
+            shootingStars.splice(i, 1);
+            continue;
+        }
+
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = rand(1, 2.5);
+        ctx.beginPath();
+        ctx.moveTo(ss.x, ss.y);
+        ctx.lineTo(ss.x - (ss.vx * (ss.len / 15)), ss.y - (ss.vy * (ss.len / 15)));
+        ctx.globalAlpha = 0.5 * (ss.life / 100);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+    }
 
     if (!gameOver) {
       // Input
@@ -118,7 +161,7 @@ const HeroGame = (() => {
         // Hit bullet
         for (let j = bullets.length - 1; j >= 0; j--) {
           const b = bullets[j];
-          if (Math.abs(b.x - e.x) < e.sz / 2 + 3 && Math.abs(b.y - e.y) < e.sz / 2 + 6) {
+          if (Math.abs(b.x - e.x) < e.sz / 2 + 5 && Math.abs(b.y - e.y) < e.sz / 2 + 8) {
             explode(e.x, e.y, e.color);
             enemies.splice(i, 1); bullets.splice(j, 1);
             score += 10; break;
@@ -127,7 +170,7 @@ const HeroGame = (() => {
       }
 
       // Draw player
-      ctx.shadowColor = NEON; ctx.shadowBlur = 14;
+      ctx.shadowColor = NEON; ctx.shadowBlur = 8;
       ctx.strokeStyle = NEON; ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(player.x, player.y - player.h);
@@ -138,14 +181,14 @@ const HeroGame = (() => {
       ctx.shadowBlur = 0;
 
       // Draw bullets
-      ctx.shadowColor = CYAN; ctx.shadowBlur = 8; ctx.fillStyle = CYAN;
+      ctx.fillStyle = CYAN;
       for (const b of bullets) ctx.fillRect(b.x - 1.5, b.y, 3, 10);
       ctx.shadowBlur = 0;
 
       // Draw enemies
       for (const e of enemies) {
         ctx.shadowColor = e.color;
-        ctx.shadowBlur = 18;
+        ctx.shadowBlur = 10;
         ctx.save(); ctx.translate(e.x, e.y); ctx.rotate(e.rot);
         ctx.strokeStyle = e.color;
         ctx.lineWidth = 1.5;
