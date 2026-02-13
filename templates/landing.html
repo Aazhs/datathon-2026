@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datathon 2026</title>
+    <title>Datathon 2025</title>
     <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,13 +19,16 @@
     <nav class="nav">
         <div class="nav-inner">
             <a href="/" class="nav-logo" style="display: flex; align-items: center; gap: 8px;">
-                <span style="display: inline-block; vertical-align: middle;">DATATHON<span class="accent"> 26</span></span>
+                <span style="display: inline-block; vertical-align: middle;">DATATHON<span class="accent"> 25</span></span>
                 <img src="/static/images/girlscript-logo.png" alt="Girlscript Logo" class="presented-logo">
             </a>
             <div class="nav-links">
+                <a href="#sponsors">Sponsors</a>
                 <a href="#timeline">Timeline</a>
+                <a href="#winners">Prizes</a>
                 <a href="#structure">Rounds</a>
                 <a href="#problems">Problems</a>
+                <a href="#how">Register</a>
                 {% if user %}
                 <span class="nav-name">{{ user.name }}</span>
                 <a href="/dashboard" class="nav-cta magic-hover magic-hover__square">Dashboard</a>
@@ -49,7 +52,7 @@
                 <span>Presented by <strong>GirlScript Club MITAOE</strong></span>
                 <img src="/static/images/girlscript-logo.png" alt="GirlScript" class="presented-logo">
             </div>
-            <h1>DATATHON<span class="accent">-2026</span></h1>
+            <h1 data-text="DATATHON-2025">DATATHON<span class="accent">-2025</span></h1>
             <p class="hero-sub"></p>
             <div class="hero-btns">
                 <a href="/register" class="btn btn-primary magic-hover magic-hover__square" >Register on Unstop</a>
@@ -86,6 +89,8 @@
             <span class="stat-label">Competitive Rounds</span>
         </div>
     </section>
+
+    
 
     <!-- ── SPONSORS ─────────────────────────────────────── -->
     <section class="section section--alt" id="sponsors">
@@ -168,6 +173,99 @@
                         <p>Top teams present their solutions live. Winners are announced across all rounds.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── WINNERS & PRIZES ──────────────────────────────── -->
+    <section class="section section--alt" id="winners">
+        <div class="section-inner">
+            <h2 class="section-title">Prizes & Recognition</h2>
+
+            <div class="winner-group">
+                <h3 class="winner-group-title">Group 1: 1st Year Students</h3>
+                <div class="winners-grid">
+                    <div class="winner-card prize-1">
+                        <div class="winner-place-badge">1st Place</div>
+                        <ul class="winner-perks">
+                            <li><span class="perk-highlight">6-Month Internship</span></li>
+                            <li>Gold Medals &amp; Certificates</li>
+                        </ul>
+                    </div>
+                    <div class="winner-card prize-2">
+                        <div class="winner-place-badge">2nd Place</div>
+                        <ul class="winner-perks">
+                            <li>Silver Medals &amp; Certificates</li>
+                            <li>Premium Swag Kits</li>
+                        </ul>
+                    </div>
+                    <div class="winner-card prize-3">
+                        <div class="winner-place-badge">3rd Place</div>
+                        <ul class="winner-perks">
+                            <li>Bronze Medals &amp; Certificates</li>
+                            <li>Exclusive Workshop Access</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="winner-group">
+                <h3 class="winner-group-title">Group 2: 2nd Year Students</h3>
+                <div class="winners-grid">
+                    <div class="winner-card prize-1">
+                        <div class="winner-place-badge">1st Place</div>
+                        <ul class="winner-perks">
+                            <li><span class="perk-highlight">6-Month Internship</span></li>
+                            <li>Gold Medals &amp; Certificates</li>
+                        </ul>
+                    </div>
+                    <div class="winner-card prize-2">
+                        <div class="winner-place-badge">2nd Place</div>
+                        <ul class="winner-perks">
+                            <li>Silver Medals &amp; Certificates</li>
+                            <li>Premium Swag Kits</li>
+                        </ul>
+                    </div>
+                    <div class="winner-card prize-3">
+                        <div class="winner-place-badge">3rd Place</div>
+                        <ul class="winner-perks">
+                            <li>Bronze Medals &amp; Certificates</li>
+                            <li>Exclusive Workshop Access</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="winner-group">
+                <h3 class="winner-group-title">Group 3: 3rd &amp; 4th Year Students</h3>
+                <div class="winners-grid">
+                    <div class="winner-card prize-1">
+                        <div class="winner-place-badge">1st Place</div>
+                        <ul class="winner-perks">
+                            <li><span class="perk-highlight">6-Month Internship</span></li>
+                            <li>Gold Medals &amp; Certificates</li>
+                        </ul>
+                    </div>
+                    <div class="winner-card prize-2">
+                        <div class="winner-place-badge">2nd Place</div>
+                        <ul class="winner-perks">
+                            <li>Silver Medals &amp; Certificates</li>
+                            <li>Premium Swag Kits</li>
+                        </ul>
+                    </div>
+                    <div class="winner-card prize-3">
+                        <div class="winner-place-badge">3rd Place</div>
+                        <ul class="winner-perks">
+                            <li>Bronze Medals &amp; Certificates</li>
+                            <li>Exclusive Workshop Access</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="participation-prize">
+                <h4>For All Participants</h4>
+                <p>Every participant who successfully submits a project will receive a <span class="perk-highlight">Certificate of Participation</span> and more!</p>
             </div>
         </div>
     </section>
@@ -357,13 +455,51 @@
         </div>
     </section>
 
+    <!-- ── DETAILS & RULES ──────────────────────────────── -->
+    <section class="section" id="details">
+        <div class="section-inner">
+            <h2 class="section-title">Hackathon Information</h2>
+            <div class="details-grid">
+                <div class="detail-block">
+                    <h3 class="detail-title">About the Event</h3>
+                    <p>Datathon 2025, organized by GirlScript MITAOE, is a Software Hackathon for undergraduate students. Participants will solve real-world challenges across various domains for a prize pool and internship opportunities.</p>
+                </div>
+                <div class="detail-block">
+                    <h3 class="detail-title">Eligibility & Format</h3>
+                    <ul class="detail-list">
+                        <li>Open to all undergraduate students.</li>
+                        <li>Team Size: 1-4 members (inter-college & inter-specialization teams allowed).</li>
+                        <li>Industry-related Problem Statements will be provided.</li>
+                    </ul>
+                </div>
+                <div class="detail-block">
+                    <h3 class="detail-title">Event Process</h3>
+                    <ul class="detail-list">
+                        <li>Problem statement selection.</li>
+                        <li>Submission of solution video & PPT for shortlisting.</li>
+                        <li>Grand Finale with live demos & presentations.</li>
+                    </ul>
+                </div>
+                <div class="detail-block">
+                    <h3 class="detail-title">Rules & Judging</h3>
+                    <ul class="detail-list">
+                        <li>Teams can propose their own problem statement.</li>
+                        <li>Strict deadlines; no late submissions allowed.</li>
+                        <li>Plagiarism will lead to immediate disqualification.</li>
+                        <li>Solutions are judged on: innovation, feasibility, scalability, technical execution, and presentation clarity.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ── FOOTER ───────────────────────────────────────── -->
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-col">
-                <span class="nav-logo">DATATHON<span class="accent">-26</span></span>
+                <span class="nav-logo">DATATHON<span class="accent">-25</span></span>
                 <p>Presented by GirlScript Club MITAOE</p>
-                <p>&copy; 2026 Datathon MITAOE. All rights reserved.</p>
+                <p>&copy; 2025 Datathon MITAOE. All rights reserved.</p>
             </div>
             <div class="footer-col footer-contact">
                 <a href="mailto:girlscript@mitaoe.ac.in">girlscript@mitaoe.ac.in</a>

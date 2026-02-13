@@ -132,22 +132,42 @@ a:hover {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 26px;
 }
 
 .nav-links a {
-    font-size: 0.85rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-dim);
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 1px;
     transition: color .2s, text-shadow 0.3s ease;
     text-decoration: none;
+    position: relative;
+    padding-bottom: 4px;
 }
 
 .nav-links a:hover { 
-    color: var(--text); 
-    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+    color: var(--accent); 
+    text-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
 }
 
 .nav-cta {
@@ -232,6 +252,7 @@ a:hover {
     letter-spacing: 6px;
     line-height: 1.1;
     text-shadow: 0 0 10px rgba(57, 255, 20, 0.3), 0 0 25px rgba(57, 255, 20, 0.2), 0 0 50px rgba(57, 255, 20, 0.1);
+    position: relative;
 }
 
 .hero-sub {
@@ -1391,3 +1412,216 @@ a:hover {
     0% { transform: translateX(0%); }
     100% { transform: translateX(calc(-100% / 2)); } /* Scrolls half the content length */
 }
+
+/* ── DETAILS & RULES ────────────────────────────────── */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+}
+
+.detail-block {
+    padding: 16px;
+    border-left: 2px solid var(--accent);
+}
+
+.detail-title {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.detail-block p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.detail-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.detail-list li {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.detail-list li::before {
+    content: '>';
+    font-family: var(--mono);
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* ── WINNERS & PRIZES ─────────────────────────────────── */
+.winner-group {
+    margin-bottom: 56px;
+}
+.winner-group:last-of-type {
+    margin-bottom: 32px;
+}
+
+.winner-group-title {
+    font-family: var(--mono);
+    font-size: 1.3rem; /* Slightly smaller than before, but still prominent */
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    
+    border: 1px solid var(--border);
+    border-top: none; /* Remove top border for a "hanging" look */
+    border-left: none;
+    border-right: none;
+
+    padding: 12px 0 16px; /* Adjust padding */
+    margin: 0 auto 32px; /* Center it and give space */
+    max-width: 90%; /* Use percentage for responsiveness */
+
+    position: relative;
+    text-shadow: 0 0 10px var(--accent2), 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+.winner-group-title::before,
+.winner-group-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; /* Position on top of the bottom border */
+    width: 30px;
+    height: 1px;
+    background: var(--accent2);
+    box-shadow: 0 0 8px var(--accent2);
+}
+
+.winner-group-title::before {
+    left: 50%;
+    transform: translateX(-50%) skewX(45deg);
+}
+
+.winner-group-title::after {
+    left: 50%;
+    transform: translateX(-50%) skewX(-45deg);
+}
+
+.winners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.winner-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.winner-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.winner-place-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--bg);
+    border-radius: 4px;
+    padding: 6px 18px;
+    margin-bottom: 20px;
+}
+
+/* Prize-specific colors */
+.winner-card.prize-1 .winner-place-badge {
+    background: var(--accent);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+}
+.winner-card.prize-2 .winner-place-badge {
+    background: #c0c0c0; /* Silver */
+    color: #222;
+    box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+}
+.winner-card.prize-3 .winner-place-badge {
+    background: #cd7f32; /* Bronze */
+    color: #fff;
+    box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
+}
+
+.winner-perks {
+    list-style: none;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.winner-perks li {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    padding-left: 22px;
+    position: relative;
+}
+
+.winner-perks li::before {
+    content: '★';
+    font-family: var(--mono);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-weight: 700;
+}
+
+.prize-1 .winner-perks li::before { color: var(--accent); }
+.prize-2 .winner-perks li::before { color: #c0c0c0; }
+.prize-3 .winner-perks li::before { color: #cd7f32; }
+
+
+.perk-highlight {
+    color: var(--accent2);
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+.participation-prize {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    text-align: center;
+    margin-top: 32px;
+}
+
+.participation-prize h4 {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.participation-prize p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
