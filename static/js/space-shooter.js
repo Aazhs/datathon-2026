@@ -10,7 +10,6 @@ const HeroGame = (() => {
   const keys = {};
   let touchX = null, autoFire = false;
   let heroTextEl, heroTextRect;
-  let touchStartX = null, touchStartY = null, isScrolling = null;
 
   const BG = '#0a0a0a', NEON = '#39ff14', PINK = '#ff2079', CYAN = '#00f0ff';
   const NEON_COLORS = ['#ff2079', '#00f0ff', '#ff9f00', '#f8f32b', '#ff00ff'];
@@ -219,6 +218,9 @@ const HeroGame = (() => {
     ctx = canvas.getContext('2d');
     isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     
+    // Allow vertical scroll, but handle horizontal touch in-game
+    canvas.style.touchAction = 'pan-y';
+
     heroTextEl = document.querySelector('.hero-overlay h1');
 
     resize();
@@ -227,53 +229,29 @@ const HeroGame = (() => {
     // Keyboard
     window.addEventListener('keydown', e => {
       keys[e.key] = true;
-      if (e.key === ' ') e.preventDefault();
+      if (e.key === ' ' || e.key.includes('Arrow')) e.preventDefault();
       if (e.key === 'Enter' && gameOver) restart();
     });
     window.addEventListener('keyup', e => { keys[e.key] = false; });
 
     // Touch controls
     canvas.addEventListener('touchstart', e => {
+        if (gameOver) return;
         const touch = e.touches[0];
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
-        isScrolling = null; // Reset on new touch
-        // Immediately set touchX so ship starts tracking finger
         touchX = touch.clientX - canvas.getBoundingClientRect().left;
-    }, { passive: false });
+        autoFire = true;
+    }, { passive: true });
 
     canvas.addEventListener('touchmove', e => {
-        if (!touchStartX || !touchStartY) {
-            return;
-        }
-
+        if (gameOver || touchX === null) return;
         const touch = e.touches[0];
-        const diffX = touch.clientX - touchStartX;
-        const diffY = touch.clientY - touchStartY;
-
-        if (isScrolling === null) {
-            // Determine intent after a small threshold of movement
-            if (Math.abs(diffX) > 5 || Math.abs(diffY) > 5) {
-                isScrolling = Math.abs(diffY) > Math.abs(diffX);
-            }
-        }
-
-        if (isScrolling === false) {
-            e.preventDefault(); // This is a horizontal game gesture, prevent scrolling
-            touchX = touch.clientX - canvas.getBoundingClientRect().left;
-            if (!autoFire) autoFire = true; // Start shooting on horizontal move
-        }
-    }, { passive: false });
+        touchX = touch.clientX - canvas.getBoundingClientRect().left;
+    }, { passive: true });
 
     canvas.addEventListener('touchend', () => {
-        // This handles a tap-to-restart when the game is over,
-        // if no scrolling or swiping has occurred.
-        if (isScrolling === null && gameOver) {
+        if (gameOver) { // Simplified for tap-to-restart
             restart();
         }
-        touchStartX = null;
-        touchStartY = null;
-        isScrolling = null;
         touchX = null;
         autoFire = false;
     });
