@@ -420,6 +420,11 @@ a:hover {
 
 .btn-full { width: 100%; text-align: center; }
 
+.btn-hero {
+    min-width: 240px;
+    text-align: center;
+}
+
 /* ── STATS BAR ──────────────────────────────────────────── */
 .stats-bar {
     display: grid;
@@ -1332,9 +1337,9 @@ a:hover {
 
 /* 1. The Outer Ring (The "Target" Box) */
 #magicMouseCursor {
-    border: 1px solid #39ff14 !important; /* Neon Cyan Border */
-    background-color: rgba(255, 255, 255, 0) !important; /* Faint fill */
-    box-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14 !important; /* The Glow */
+    border: 1px solid var(--accent) !important;
+    background-color: transparent !important;
+    box-shadow: 0 0 5px rgba(57, 255, 20, 0.2);
     border-radius: 0 !important; /* Forces it to be a sharp square */
     z-index: 999999 !important;
 }
