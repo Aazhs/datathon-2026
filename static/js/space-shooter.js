@@ -64,7 +64,7 @@ const HeroGame = (() => {
       // Input
       if (keys['ArrowLeft'] || keys['a']) player.x -= player.sp;
       if (keys['ArrowRight'] || keys['d']) player.x += player.sp;
-      if (touchX !== null) player.x += (touchX - player.x) * 0.14;
+      if (touchX !== null) player.x = touchX;
       player.x = Math.max(player.w, Math.min(W - player.w, player.x));
 
       if (keys[' '] || keys['ArrowUp'] || keys['w'] || autoFire) shoot();
@@ -238,6 +238,8 @@ const HeroGame = (() => {
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
         isScrolling = null; // Reset on new touch
+        // Immediately set touchX so ship starts tracking finger
+        touchX = touch.clientX - canvas.getBoundingClientRect().left;
     }, { passive: false });
 
     canvas.addEventListener('touchmove', e => {
@@ -251,7 +253,7 @@ const HeroGame = (() => {
 
         if (isScrolling === null) {
             // Determine intent after a small threshold of movement
-            if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
+            if (Math.abs(diffX) > 5 || Math.abs(diffY) > 5) {
                 isScrolling = Math.abs(diffY) > Math.abs(diffX);
             }
         }
