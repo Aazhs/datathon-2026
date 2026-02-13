@@ -12,7 +12,7 @@ const HeroGame = (() => {
   let heroTextEl, heroTextRect;
 
   const BG = '#0a0a0a', NEON = '#39ff14', PINK = '#ff2079', CYAN = '#00f0ff';
-  const NEON_COLORS = ['#ff2079', '#00f0ff', '#ff9f00', '#f8f32b', '#ff00ff'];
+  const NEON_COLORS = ['#ff2079', '#00f0ff', '#ff9f00', '#f8f32b', '#ff00ff', NEON, NEON, NEON];
   const rand = (a, b) => Math.random() * (b - a) + a;
 
   /* ── stars ─────────────────────────────────────────────── */
