@@ -285,7 +285,74 @@ async def dashboard_page(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/login?next=/dashboard", status_code=302)
-    return templates.TemplateResponse("dashboard.html", {"request": request, "user": user})
+    
+    registration = None
+    if supabase:
+        try:
+            result = (
+                supabase.table("registrations")
+                .select("*")
+                .eq("registered_by", user["email"])
+                .limit(1)
+                .execute()
+            )
+            if result.data:
+                registration = result.data[0]
+        except Exception as e:
+            print(f"Error fetching registration: {e}")
+
+    return templates.TemplateResponse(
+        "dashboard.html", 
+        {"request": request, "user": user, "registration": registration}
+    )
+
+
+@app.post("/submit-ppt")
+async def submit_ppt(
+    request: Request,
+    ppt_link: str = Form(...),
+):
+    user = get_current_user(request)
+    if not user:
+        return RedirectResponse("/login?next=/dashboard", status_code=302)
+
+    if not supabase:
+        return RedirectResponse("/dashboard?error=Database+not+configured", status_code=302)
+
+    # Basic link validation
+    if not (ppt_link.startswith("https://docs.google.com/") or ppt_link.startswith("https://drive.google.com/")):
+        return templates.TemplateResponse(
+            "dashboard.html",
+            {
+                "request": request,
+                "user": user,
+                "error": True,
+                "message": "Please provide a valid Google Drive or Google Slides link.",
+                "registration": {"ppt_link": ppt_link} # Keep input for user to fix
+            }
+        )
+
+    try:
+        # Check if they already submitted a link
+        result = (
+            supabase.table("registrations")
+            .select("ppt_link")
+            .eq("registered_by", user["email"])
+            .limit(1)
+            .execute()
+        )
+        
+        if result.data and result.data[0].get("ppt_link"):
+            return RedirectResponse("/dashboard?error=PPT+link+has+already+been+submitted+and+cannot+be+changed", status_code=302)
+
+        # Update the registration record with the PPT link
+        supabase.table("registrations").update({"ppt_link": ppt_link}).eq("registered_by", user["email"]).execute()
+        
+        # Redirect back to dashboard with success message
+        return RedirectResponse("/dashboard?success=PPT+link+submitted+successfully", status_code=302)
+    except Exception as e:
+        print(f"PPT submission error: {e}")
+        return RedirectResponse("/dashboard?error=Failed+to+submit+PPT+link", status_code=302)
 
 
 @app.post("/register")

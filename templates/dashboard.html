@@ -38,16 +38,93 @@
                     <p>Welcome, <span class="dash-email">{{ user.name }}</span></p>
                 </div>
 
+                {% if request.query_params.get('success') %}
+                <div class="alert alert-success" style="margin-bottom: 20px; padding: 15px; background: rgba(0, 255, 136, 0.1); border: 1px solid var(--accent); color: var(--accent); border-radius: 4px; text-align: center;">
+                    {{ request.query_params.get('success') }}
+                </div>
+                {% endif %}
+
+                {% if error or request.query_params.get('error') %}
+                <div class="alert alert-error" style="margin-bottom: 20px; padding: 15px; background: rgba(255, 0, 60, 0.1); border: 1px solid #ff003c; color: #ff003c; border-radius: 4px; text-align: center;">
+                    {{ message or request.query_params.get('error') }}
+                </div>
+                {% endif %}
+
                 <div class="dash-actions">
+                    {% if not registration %}
                     <a href="/register" class="dash-card">
                         <h3>Register Team</h3>
                         <p>Fill in your team details, select a problem statement, and submit your registration.</p>
                     </a>
+                    {% else %}
+                    <div class="dash-card" style="cursor: default; border-color: var(--accent);">
+                        <h3>Status: Registered</h3>
+                        <p>Your team <strong>{{ registration.team_name }}</strong> is registered.</p>
+                        <p>University: {{ registration.university }}</p>
+                    </div>
+                    {% endif %}
+                    
                     <a href="/" class="dash-card">
                         <h3>View Event</h3>
                         <p>Check the timeline, rounds, problem statements, and pricing info.</p>
                     </a>
                 </div>
+
+                {% if registration %}
+                <div class="ppt-submission-section" style="margin-top: 40px; padding: 30px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                    <h3 style="font-family: 'Audiowide', cursive; color: var(--accent); margin-bottom: 20px;">PPT Submission</h3>
+                    
+                    {% if registration.ppt_link %}
+                    <div class="submitted-link-box" style="padding: 20px; background: rgba(0, 255, 136, 0.05); border: 1px solid var(--accent); border-radius: 4px;">
+                        <p style="color: var(--accent); font-weight: 500; margin-bottom: 10px;">✓ PPT link has been successfully submitted.</p>
+                        <p style="font-size: 0.9em; color: #ccc; word-break: break-all;">
+                            <strong>Link:</strong> <a href="{{ registration.ppt_link }}" target="_blank" style="color: white; text-decoration: underline;">{{ registration.ppt_link }}</a>
+                        </p>
+                        <p style="margin-top: 15px; font-size: 0.8em; color: #888; font-style: italic;">
+                            Note: Submitted links cannot be changed. Contact support if you need to update your submission.
+                        </p>
+                    </div>
+                    {% else %}
+                    <form action="/submit-ppt" method="POST" class="form-group">
+                        <label for="ppt_link" style="display: block; margin-bottom: 10px; color: #ccc;">Google Drive / Google Slides Link</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="url" id="ppt_link" name="ppt_link" 
+                                   placeholder="https://docs.google.com/presentation/d/..." 
+                                   required 
+                                   style="flex: 1; min-width: 300px; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px;">
+                            <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">
+                                Submit Link
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="instructions" style="margin-top: 25px; font-size: 0.9em; color: #aaa; line-height: 1.6;">
+                        <h4 style="color: #eee; margin-bottom: 10px;">How to get your link:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <strong style="color: var(--accent);">Google Slides:</strong>
+                                <ul style="margin-top: 5px; padding-left: 20px;">
+                                    <li>Open your presentation.</li>
+                                    <li>Click the <span style="color: white;">"Share"</span> button (top right).</li>
+                                    <li>Change access to <span style="color: white;">"Anyone with the link"</span>.</li>
+                                    <li>Ensure role is set to <span style="color: white;">"Viewer"</span>.</li>
+                                    <li>Click <span style="color: white;">"Copy link"</span> and paste it above.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--accent);">Google Drive (PPTX/PDF):</strong>
+                                <ul style="margin-top: 5px; padding-left: 20px;">
+                                    <li>Upload your file to Google Drive.</li>
+                                    <li>Right-click the file and select <span style="color: white;">"Share"</span> &rarr; <span style="color: white;">"Share"</span>.</li>
+                                    <li>Change access to <span style="color: white;">"Anyone with the link"</span>.</li>
+                                    <li>Click <span style="color: white;">"Copy link"</span> and paste it above.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
 
                 <div style="text-align:center; margin-top:40px;">
                     <a href="/logout" class="btn btn-ghost">Log Out</a>
