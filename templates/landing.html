@@ -80,12 +80,16 @@
             <span class="stat-label">Members / Team</span>
         </div>
         <div class="stat">
-            <span class="stat-num">20</span>
+            <span class="stat-num">11</span>
             <span class="stat-label">Problem Statements</span>
         </div>
         <div class="stat">
             <span class="stat-num">3</span>
             <span class="stat-label">Competitive Rounds</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">50000</span>
+            <span class="stat-label">Prize Pool</span>
         </div>
     </section>
 
@@ -161,7 +165,7 @@
                     <div class="tl-content">
                         <span class="tl-date">5 March</span>
                         <h3>Problem Statement Selection</h3>
-                        <p>Choose from 20 problem statements. Start preparing PPT</p>
+                        <p>Choose from 11 problem statements. Start preparing PPT</p>
                     </div>
                 </div>
                 <div class="tl-item">
@@ -195,7 +199,7 @@
                     <div class="winner-card prize-1">
                         <div class="winner-place-badge">1st Place</div>
                         <ul class="winner-perks">
-                            <li><span class="perk-highlight">6-Month Internship From Sponsor</span></li>
+                            <li><span class="perk-highlight">6-Month Internship From TutorialsPoint</span></li>
                         </ul>
                     </div>
                     <div class="winner-card prize-2">
@@ -219,7 +223,7 @@
                     <div class="winner-card prize-1">
                         <div class="winner-place-badge">1st Place</div>
                         <ul class="winner-perks">
-                            <li><span class="perk-highlight">6-Month Internship From Sponsor</span></li>
+                            <li><span class="perk-highlight">6-Month Internship From TutorialsPoint</span></li>
                         </ul>
                     </div>
                     <div class="winner-card prize-2">
@@ -243,7 +247,7 @@
                     <div class="winner-card prize-1">
                         <div class="winner-place-badge">1st Place</div>
                         <ul class="winner-perks">
-                            <li><span class="perk-highlight">6-Month Internship From Sponsor</span></li>
+                            <li><span class="perk-highlight">6-Month Internship From TutorialsPoint</span></li>
                         </ul>
                     </div>
                     <div class="winner-card prize-2">
@@ -305,109 +309,249 @@
     <section class="section" id="problems">
         <div class="section-inner section-inner--wide">
             <h2 class="section-title">Problem Statements</h2>
-            <p class="section-desc">Choose one during registration. Allocation is first-come, first-served.</p>
+            <p class="section-desc">Choose one out of <span class="green">11</span> total Problem Statements during registration. Allocation is first-come, first-served.</p>
             <div class="ps-carousel-container">
                 <div class="ps-carousel-track">
                     <div class="ps-grid">
+                        <!-- PS-01 -->
                         <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-01</span>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-01</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-01', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>Smart Traffic Management System</h4>
+                            <p>Urban areas suffer from high congestion because traffic signals operate on static timers regardless of actual vehicle density. Participants must develop an AI-driven Adaptive Signal Control System that analyzes live traffic feeds to dynamically adjust "Green Light" durations. The system should prioritize emergency vehicles (ambulances/fire trucks) and reduce "dead-time" at empty intersections.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>Computer Vision: YOLO (v8/v10), OpenCV</li>
+                                <li>Programming: Python</li>
+                                <li>Simulation: SUMO or Pygame</li>
+                                <li>Deployment: Flask/FastAPI</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Real-time vehicle count dashboard</li>
+                                <li>Waiting time reduction simulation</li>
+                                <li>Emergency "Green Wave" triggering</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-02 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-02</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-02', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>Railway Ticket Management & Predictive Analysis</h4>
+                            <p>Traditional railway systems struggle with "Waitlist" uncertainty and seat wastage. Participants need to create an Intelligent Booking & Prediction Engine. This system should not only manage bookings and cancellations but also use historical data to provide a PNR Confirmation Probability. Additionally, it should suggest "Alternative Route/Train" options if the primary choice is unavailable.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>Backend: Java (Spring Boot) or Node.js</li>
+                                <li>Database: PostgreSQL or MongoDB</li>
+                                <li>Data Science: Scikit-learn, Pandas, XGBoost</li>
+                                <li>Frontend: React.js or Angular</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Functional booking portal with PNR</li>
+                                <li>Waitlist prediction model (>80% accuracy)</li>
+                                <li>Dynamic Seat Allocation algorithm</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-03 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-03</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-03', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>AI Content Detector</h4>
+                            <p>With the rise of Large Language Models (LLMs), distinguishing between human-written and AI- generated content is critical for academic integrity and misinformation control. Participants must build a Deep Learning Classifier that detects text generated by models like GPT-4, Claude, or Gemini. The tool should provide a "Perplexity" score and highlight specific segments likely to be AI- generated.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>NLP: Hugging Face, PyTorch/TensorFlow</li>
+                                <li>Models: RoBERTa, BERT, or T5</li>
+                                <li>Data: Web-scraped / Deepfake Text dataset</li>
+                                <li>Frontend: Streamlit or Tailwind CSS</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Web interface for text analysis</li>
+                                <li>AI vs Human Probability Score</li>
+                                <li>Model performance report (F1, Precision)</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-04 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-04</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-04', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>AI-Powered Smart Agriculture (IoT & CV)</h4>
+                            <p>Farmers often face crop loss due to undetected pests or nutrient deficiencies. Participants must build a Crop Health Monitoring System that analyzes images of leaves to identify diseases and recommend specific fertilizers or pesticides. The system should also predict the "Optimal Harvest Date" based on historical weather patterns.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>DL Frameworks: TensorFlow/Keras</li>
+                                <li>Datasets: PlantVillage dataset</li>
+                                <li>Mobile/Web: Flutter or React Native</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Mobile app for leaf diagnosis</li>
+                                <li>Soil moisture & weather dashboard</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-05 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-05</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-05', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>Blockchain-Based Supply Chain for Pharmacy</h4>
+                            <p>The pharmaceutical industry is plagued by counterfeit drugs. Participants are tasked with creating a Transparent Drug Tracking System using Blockchain. Every step from the manufacturer to the local pharmacy must be logged on a ledger to ensure the medicine's authenticity.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>Blockchain: Ethereum, Solidity</li>
+                                <li>Web3: Ethers.js or Web3.js</li>
+                                <li>Backend: Node.js</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>dApp for "Chain of Custody" tracking</li>
+                                <li>Immutable drug storage logs</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-06 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-06</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-06', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>Personalized Mental Health Chatbot (NLP)</h4>
+                            <p>With rising stress levels, many students don't have immediate access to counseling. Build an Empathetic AI Companion that uses Sentiment Analysis to gauge a user's mood. It should provide coping mechanisms for anxiety/stress and, most importantly, trigger an "Emergency Alert" to a human counselor if it detects signs of self-harm.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>NLP: OpenAI API (GPT-4) or Llama 3</li>
+                                <li>Sentiment: VADER or TextBlob</li>
+                                <li>Frontend: Next.js</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Real-time responsive chat interface</li>
+                                <li>Weekly emotional trend tracker</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-07 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-07</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-07', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>Fraud Detection in UPI/Digital Payments</h4>
+                            <p>Digital payment fraud is evolving rapidly. Participants must develop a Real-Time Fraud Detection Engine that flags suspicious transactions based on anomalies (e.g., unusual location, sudden high-value transfer, or rapid-fire small transactions).</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>ML: Isolation Forest, Random Forest</li>
+                                <li>Stream: Apache Kafka or Spark</li>
+                                <li>Database: Redis (fast lookups)</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Transaction classification system</li>
+                                <li>False Positive rate report</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-08 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-08</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-08', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>Automated Resume Screener & Job Matcher</h4>
+                            <p>HR departments receive thousands of resumes that don't match job descriptions (JD). Build a Resume Parser that extracts skills, experience, and education, then ranks candidates based on a "Match Score" against a specific JD using Vector Embeddings.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>Parsing: PyResparser or Spacy</li>
+                                <li>Search: Cosine Similarity, FAISS</li>
+                                <li>Frontend: React.js</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Recruiter dashboard for PDF sorting</li>
+                                <li>Candidate "Skill Gap" analysis</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-09 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-09</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-09', 0) }}/10 Teams</span>
+                            </div>
+                            <h4>Decentralized Energy Grid Simulator</h4>
+                            <p> In a smart city, households with solar panels should be able to sell excess electricity to neighbors. Create a P2P Energy Trading Platform that uses a bidding algorithm to balance the local grid's supply and demand without a central authority.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>Simulation: Python (Mesa)</li>
+                                <li>Logic: Nash Equilibrium algorithms</li>
+                                <li>UI: D3.js grid visualization</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Visual energy flow map</li>
+                                <li>Dynamic pricing model</li>
+                            </ul>
+                        </div>
+
+                        <!-- PS-10 -->
+                        <div class="ps-card magic-hover magic-hover__square">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-10</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-10', 0) }}/10 Teams</span>
+                            </div>
                             <h4>Predictive Healthcare Analytics</h4>
                             <p>Build a model to predict patient readmission rates using historical medical records and demographic data.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>Programming: Python (Pandas, NumPy)</li>
+                                <li>ML Libraries: Scikit-learn, XGBoost</li>
+                                <li>Visualization: Matplotlib, Seaborn</li>
+                                <li>Deployment: Streamlit or Flask</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Readmission prediction model</li>
+                                <li>Feature importance analysis</li>
+                                <li>Healthcare professional dashboard</li>
+                            </ul>
                         </div>
+
+                        <!-- PS-11 -->
                         <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-02</span>
-                            <h4>Smart Traffic Management</h4>
-                            <p>Design a real-time traffic signal optimization system using sensor data and vehicle flow patterns.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-03</span>
-                            <h4>Fake News Detection</h4>
-                            <p>Develop an NLP pipeline to classify news articles as genuine or fabricated with explainability scores.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-04</span>
-                            <h4>Crop Yield Prediction</h4>
-                            <p>Predict seasonal crop yields using weather, soil quality, and satellite imagery datasets.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-05</span>
-                            <h4>Financial Fraud Detection</h4>
-                            <p>Identify fraudulent transactions from banking data using anomaly detection and pattern recognition.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-06</span>
-                            <h4>Energy Consumption Forecasting</h4>
-                            <p>Forecast electricity demand for a smart grid using time-series analysis on consumption logs.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-07</span>
-                            <h4>Customer Churn Analysis</h4>
-                            <p>Predict which customers are likely to leave a subscription service and suggest retention strategies.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-08</span>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="ps-id">PS-11</span>
+                                <span class="ps-count">{{ ps_counts.get('PS-11', 0) }}/10 Teams</span>
+                            </div>
                             <h4>Air Quality Index Prediction</h4>
                             <p>Build a forecasting model for AQI levels in urban areas using meteorological and pollution data.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-09</span>
-                            <h4>Supply Chain Optimization</h4>
-                            <p>Optimize warehouse-to-retailer logistics using demand forecasting and route planning algorithms.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-10</span>
-                            <h4>Sentiment Analysis on Reviews</h4>
-                            <p>Analyze product reviews at scale to extract sentiment trends and actionable business insights.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-11</span>
-                            <h4>Disaster Response Mapping</h4>
-                            <p>Use satellite and social media data to map affected areas in real-time during natural disasters.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-12</span>
-                            <h4>Automated Resume Screening</h4>
-                            <p>Build a system to rank and shortlist resumes based on job descriptions using NLP techniques.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-13</span>
-                            <h4>Water Quality Monitoring</h4>
-                            <p>Classify water samples as safe or contaminated using IoT sensor readings and chemical analysis data.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-14</span>
-                            <h4>Education Dropout Prediction</h4>
-                            <p>Identify at-risk students likely to drop out using attendance, grades, and socioeconomic indicators.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-15</span>
-                            <h4>Real Estate Price Estimation</h4>
-                            <p>Predict property prices using location features, amenities, market trends, and historical sales data.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-16</span>
-                            <h4>Cybersecurity Threat Detection</h4>
-                            <p>Detect network intrusions and classify attack types using system logs and traffic flow data.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-17</span>
-                            <h4>Sports Performance Analytics</h4>
-                            <p>Analyze player performance metrics to predict match outcomes and suggest team composition strategies.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-18</span>
-                            <h4>Personalized Learning Paths</h4>
-                            <p>Recommend customized study plans for students based on learning behavior and assessment performance.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-19</span>
-                            <h4>Urban Waste Management</h4>
-                            <p>Optimize garbage collection routes and predict bin overflow times using IoT and historical data.</p>
-                        </div>
-                        <div class="ps-card magic-hover magic-hover__square">
-                            <span class="ps-id">PS-20</span>
-                            <h4>Social Media Trend Forecasting</h4>
-                            <p>Predict trending topics and viral content patterns using engagement metrics and temporal analysis.</p>
+                            <span class="ps-label">Tech Stack</span>
+                            <ul class="ps-list">
+                                <li>Programming: Python</li>
+                                <li>Time-series: ARIMA, Prophet, or LSTM</li>
+                                <li>Data: OpenAQ API or similar</li>
+                                <li>Visualization: Plotly or D3.js</li>
+                            </ul>
+                            <span class="ps-label">Expected Output</span>
+                            <ul class="ps-list">
+                                <li>Real-time AQI forecasting model</li>
+                                <li>Spatiotemporal heatmaps</li>
+                                <li>Pollution alert system</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -442,7 +586,7 @@
                 <div class="step-card magic-hover magic-hover__square">
                     <div class="step-num">3</div>
                     <h4>Pick Your Problem</h4>
-                    <p>Login and choose from 20 problem statements. Allocation is first-come, first-served.</p>
+                    <p>Login and choose from 11 problem statements. Allocation is first-come, first-served.</p>
                 </div>
                 <div class="step-card magic-hover magic-hover__square">
                     <div class="step-num">4</div>
@@ -517,6 +661,53 @@
         document.querySelector('.nav-toggle').addEventListener('click', function () {
             document.querySelector('.nav-links').classList.toggle('open');
         });
+
+        // Problem Statements Carousel
+        (function() {
+            const track = document.querySelector('.ps-grid');
+            const cards = document.querySelectorAll('.ps-card');
+            const prevBtn = document.querySelector('.ps-nav-btn--prev');
+            const nextBtn = document.querySelector('.ps-nav-btn--next');
+            
+            if (!track || cards.length === 0) return;
+
+            let currentIndex = 0;
+            const gap = 20; // Matches CSS gap
+
+            function updateCarousel() {
+                const cardWidth = cards[0].offsetWidth;
+                const totalWidthPerCard = cardWidth + gap;
+                const containerWidth = document.querySelector('.ps-carousel-track').offsetWidth;
+                
+                // Calculate how many cards are fully visible
+                const visibleCards = Math.floor((containerWidth + gap) / totalWidthPerCard);
+                const maxIndex = Math.max(0, cards.length - visibleCards);
+
+                if (currentIndex < 0) currentIndex = 0;
+                if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+                const translateX = -currentIndex * totalWidthPerCard;
+                track.style.transform = `translateX(${translateX}px)`;
+
+                // Update button states
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex >= maxIndex;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex--;
+                updateCarousel();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex++;
+                updateCarousel();
+            });
+
+            // Initial check and window resize handling
+            window.addEventListener('resize', updateCarousel);
+            updateCarousel();
+        })();
     </script>
     <script type="text/javascript" src="https://res.cloudinary.com/veseylab/raw/upload/v1684982764/magicmouse-2.0.0.cdn.min.js"></script>
     <script type="text/javascript">

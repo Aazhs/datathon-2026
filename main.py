@@ -128,13 +128,34 @@ def has_existing_registration(email: str) -> bool:
         return False
 
 
+def get_problem_statement_counts():
+    """Return a dict of {ps_id: count} for all registrations."""
+    if not supabase:
+        return {}
+    try:
+        # Get all registrations' problem statements
+        result = supabase.table("registrations").select("problem_statement").execute()
+        counts = {}
+        for row in result.data:
+            ps = row["problem_statement"]
+            counts[ps] = counts.get(ps, 0) + 1
+        return counts
+    except Exception as e:
+        print(f"Error fetching PS counts: {e}")
+        return {}
+
+
 # ── Pages ───────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
 async def landing_page(request: Request):
     """Landing page"""
     user = get_current_user(request)
-    return templates.TemplateResponse("landing.html", {"request": request, "user": user})
+    ps_counts = get_problem_statement_counts()
+    return templates.TemplateResponse(
+        "landing.html", 
+        {"request": request, "user": user, "ps_counts": ps_counts}
+    )
 
 
 @app.get("/register", response_class=HTMLResponse)
@@ -143,10 +164,19 @@ async def register_page(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/login?next=/register", status_code=302)
+    
     already_registered = has_existing_registration(user["email"])
+    ps_counts = get_problem_statement_counts()
+    
     return templates.TemplateResponse(
         "register.html",
-        {"request": request, "user": user, "already_registered": already_registered},
+        {
+            "request": request, 
+            "user": user, 
+            "already_registered": already_registered,
+            "ps_counts": ps_counts,
+            "max_teams": 10
+        },
     )
 
 
@@ -361,6 +391,21 @@ async def submit_registration(
     try:
         if not supabase:
             raise HTTPException(status_code=500, detail="Database not configured")
+
+        # Enforce 10 teams per PS limit (First-come, first-served)
+        ps_counts = get_problem_statement_counts()
+        if ps_counts.get(problem_statement, 0) >= 10:
+            return templates.TemplateResponse(
+                "register.html",
+                {
+                    "request": request,
+                    "user": user,
+                    "error": True,
+                    "message": f"Problem Statement {problem_statement} has reached its maximum capacity of 10 teams. Please choose another.",
+                    "ps_counts": ps_counts,
+                    "max_teams": 10
+                }
+            )
 
         data = {
             "team_name": team_name,

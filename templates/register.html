@@ -104,26 +104,25 @@
                         <label for="problem_statement">Choose a Problem Statement</label>
                         <select id="problem_statement" name="problem_statement" required>
                             <option value="" disabled selected>-- Select a problem statement --</option>
-                            <option value="PS-01">PS-01: Predictive Healthcare Analytics</option>
-                            <option value="PS-02">PS-02: Smart Traffic Management</option>
-                            <option value="PS-03">PS-03: Fake News Detection</option>
-                            <option value="PS-04">PS-04: Crop Yield Prediction</option>
-                            <option value="PS-05">PS-05: Financial Fraud Detection</option>
-                            <option value="PS-06">PS-06: Energy Consumption Forecasting</option>
-                            <option value="PS-07">PS-07: Customer Churn Analysis</option>
-                            <option value="PS-08">PS-08: Air Quality Index Prediction</option>
-                            <option value="PS-09">PS-09: Supply Chain Optimization</option>
-                            <option value="PS-10">PS-10: Sentiment Analysis on Reviews</option>
-                            <option value="PS-11">PS-11: Disaster Response Mapping</option>
-                            <option value="PS-12">PS-12: Automated Resume Screening</option>
-                            <option value="PS-13">PS-13: Water Quality Monitoring</option>
-                            <option value="PS-14">PS-14: Education Dropout Prediction</option>
-                            <option value="PS-15">PS-15: Real Estate Price Estimation</option>
-                            <option value="PS-16">PS-16: Cybersecurity Threat Detection</option>
-                            <option value="PS-17">PS-17: Sports Performance Analytics</option>
-                            <option value="PS-18">PS-18: Personalized Learning Paths</option>
-                            <option value="PS-19">PS-19: Urban Waste Management</option>
-                            <option value="PS-20">PS-20: Social Media Trend Forecasting</option>
+                            {% set ps_list = [
+                                ("PS-01", "PS-01: Smart Traffic Management System"),
+                                ("PS-02", "PS-02: Railway Ticket Management & Predictive Analysis"),
+                                ("PS-03", "PS-03: AI Content Detector"),
+                                ("PS-04", "PS-04: AI-Powered Smart Agriculture (IoT & CV)"),
+                                ("PS-05", "PS-05: Blockchain-Based Supply Chain for Pharmacy"),
+                                ("PS-06", "PS-06: Personalized Mental Health Chatbot (NLP)"),
+                                ("PS-07", "PS-07: Fraud Detection in UPI/Digital Payments"),
+                                ("PS-08", "PS-08: Automated Resume Screener & Job Matcher"),
+                                ("PS-09", "PS-09: Decentralized Energy Grid Simulator"),
+                                ("PS-10", "PS-10: Predictive Healthcare Analytics"),
+                                ("PS-11", "PS-11: Air Quality Index Prediction")
+                            ] %}
+                            {% for ps_id, ps_name in ps_list %}
+                                {% set count = ps_counts.get(ps_id, 0) %}
+                                <option value="{{ ps_id }}" {% if count >= max_teams %}disabled{% endif %}>
+                                    {{ ps_name }} {% if count >= max_teams %}(FULL){% endif %}
+                                </option>
+                            {% endfor %}
                         </select>
                     </div>
 

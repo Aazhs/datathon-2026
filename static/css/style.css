@@ -428,7 +428,7 @@ a:hover {
 /* ── STATS BAR ──────────────────────────────────────────── */
 .stats-bar {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     max-width: 1200px;
     margin: 60px auto;
     border-bottom: 1px solid var(--border);
@@ -715,7 +715,8 @@ a:hover {
 
 /* ── PROBLEM STATEMENTS ──────────────────────────────────── */
 .section-inner--wide {
-    max-width: 1200px;
+    max-width: 1300px; /* 3 cards * 420px + 2 gaps * 20px = 1300px exactly */
+    margin: 0 auto;
 }
 
 .section-desc {
@@ -726,68 +727,38 @@ a:hover {
     margin-bottom: 40px;
 }
 
+.ps-carousel-container {
+    position: relative;
+    width: 100%;
+}
+
+.ps-carousel-track {
+    overflow: hidden; /* CRITICAL: Hide the overflowing cards */
+    width: 100%;
+}
+
 .ps-grid {
-    display: flex; /* Changed from grid */
-    flex-wrap: nowrap; /* Ensure cards stay in a single row */
-    gap: 16px;
-    padding-bottom: 10px; /* Space for scrollbar if it appears */
-    transition: transform 0.5s ease-in-out;
+    display: flex; 
+    flex-wrap: nowrap; 
+    gap: 20px;
+    padding-bottom: 20px; 
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 .ps-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 20px;
+    padding: 24px;
     transition: border-color .25s, box-shadow 0.3s ease;
-    width: 280px; /* Fixed width for cards */
-    flex: 0 0 auto; /* Prevent cards from shrinking */
+    width: 420px; 
+    flex: 0 0 420px; /* Prevent shrinking/growing */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    user-select: none;
 }
-
-/* New Carousel Styles */
-.ps-carousel-container {
-    position: relative;
-}
-
-.ps-carousel-track {
-    overflow: hidden;
-}
-
-.ps-nav {
-    text-align: center;
-    margin-top: 24px;
-}
-
-.ps-nav-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 0 8px;
-}
-
-.ps-nav-btn:hover:not(:disabled) {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
-    box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
-}
-
-.ps-nav-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.ps-nav-btn svg {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2.5px;
-}
-
 
 .ps-card:hover {
     border-color: var(--accent);
@@ -801,20 +772,98 @@ a:hover {
     letter-spacing: 1.5px;
     color: var(--accent);
     display: block;
-    margin-bottom: 8px;
+}
+
+.ps-count {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.03);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
 }
 
 .ps-card h4 {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #fff;
-    margin-bottom: 6px;
     line-height: 1.4;
+    margin: 0;
 }
 
 .ps-card p {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-dim);
     line-height: 1.6;
+    margin: 0;
+}
+
+.ps-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--accent2);
+    letter-spacing: 1px;
+    margin-top: 8px;
+    display: block;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+    padding-bottom: 2px;
+    width: fit-content;
+}
+
+.ps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ps-list li {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.ps-list li::before {
+    content: '•';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+}
+
+.ps-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.ps-nav-btn {
+    background: rgba(17, 17, 17, 0.8);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.ps-nav-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.ps-nav-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    color: var(--text-dim);
 }
 
 /* ── STEPS ──────────────────────────────────────────────── */
@@ -1627,4 +1676,8 @@ a:hover {
     font-size: 0.9rem;
     max-width: 650px;
     margin: 0 auto;
+}
+
+.green{
+    color: var(--accent);
 }
