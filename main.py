@@ -128,6 +128,33 @@ def has_existing_registration(email: str) -> bool:
         return False
 
 
+def get_existing_registration(email: str):
+    """Return the registration row dict for this email, or None."""
+    if not supabase:
+        return None
+    try:
+        result = (
+            supabase.table("registrations")
+            .select("*")
+            .eq("registered_by", email)
+            .limit(1)
+            .execute()
+        )
+        if result.data:
+            return result.data[0]
+        # Fallback: check leader_email for older rows
+        result = (
+            supabase.table("registrations")
+            .select("*")
+            .eq("leader_email", email)
+            .limit(1)
+            .execute()
+        )
+        return result.data[0] if result.data else None
+    except Exception:
+        return None
+
+
 def get_problem_statement_counts():
     """Return a dict of {ps_id: count} for all registrations."""
     if not supabase:
@@ -315,7 +342,11 @@ async def dashboard_page(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/login?next=/dashboard", status_code=302)
-    return templates.TemplateResponse("dashboard.html", {"request": request, "user": user})
+    registration = get_existing_registration(user["email"])
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {"request": request, "user": user, "registration": registration},
+    )
 
 
 @app.post("/register")
@@ -453,6 +484,150 @@ async def submit_registration(
                 "message": "Registration failed. Please try again or contact support."
             }
         )
+
+
+# ── Edit Registration ───────────────────────────────────────
+
+@app.get("/edit-registration", response_class=HTMLResponse)
+async def edit_registration_page(request: Request):
+    """Show form pre-filled with existing registration data."""
+    user = get_current_user(request)
+    if not user:
+        return RedirectResponse("/login?next=/edit-registration", status_code=302)
+
+    registration = get_existing_registration(user["email"])
+    if not registration:
+        return RedirectResponse("/register", status_code=302)
+
+    ps_counts = get_problem_statement_counts()
+    return templates.TemplateResponse(
+        "edit_registration.html",
+        {
+            "request": request,
+            "user": user,
+            "reg": registration,
+            "ps_counts": ps_counts,
+            "max_teams": 10,
+        },
+    )
+
+
+@app.post("/edit-registration")
+async def edit_registration_submit(
+    request: Request,
+    team_name: str = Form(...),
+    university: str = Form(...),
+    team_size: int = Form(...),
+    problem_statement: str = Form(...),
+    m1_name: str = Form(...),
+    m1_email: str = Form(...),
+    m1_phone: str = Form(...),
+    m2_name: str = Form(""),
+    m2_email: str = Form(""),
+    m2_phone: str = Form(""),
+    m3_name: str = Form(""),
+    m3_email: str = Form(""),
+    m3_phone: str = Form(""),
+    m4_name: str = Form(""),
+    m4_email: str = Form(""),
+    m4_phone: str = Form(""),
+):
+    """Handle edit-registration form submission."""
+    user = get_current_user(request)
+    if not user:
+        return RedirectResponse("/login?next=/edit-registration", status_code=302)
+
+    registration = get_existing_registration(user["email"])
+    if not registration:
+        return RedirectResponse("/register", status_code=302)
+
+    team_size = max(1, min(4, team_size))
+
+    members = [(m1_name, m1_email, m1_phone)]
+    if team_size >= 2:
+        members.append((m2_name, m2_email, m2_phone))
+    if team_size >= 3:
+        members.append((m3_name, m3_email, m3_phone))
+    if team_size >= 4:
+        members.append((m4_name, m4_email, m4_phone))
+
+    email_re = re.compile(r"^[\w.+-]+@[\w-]+\.[\w.-]+$")
+    phone_re = re.compile(r"^[\d\s\+\-()]{7,20}$")
+    ps_counts = get_problem_statement_counts()
+
+    def _render_error(msg):
+        return templates.TemplateResponse(
+            "edit_registration.html",
+            {
+                "request": request,
+                "user": user,
+                "reg": registration,
+                "ps_counts": ps_counts,
+                "max_teams": 10,
+                "error": True,
+                "message": msg,
+            },
+        )
+
+    for name, email, phone in members:
+        if not name.strip():
+            return _render_error("All member names are required.")
+        if not email_re.match(email):
+            return _render_error(f"Invalid email: {email}")
+        if not phone_re.match(phone):
+            return _render_error(f"Invalid phone number for {name}.")
+
+    # If the PS changed, enforce capacity (don't count the team's own old PS)
+    old_ps = registration.get("problem_statement")
+    if problem_statement != old_ps:
+        current_count = ps_counts.get(problem_statement, 0)
+        if current_count >= 10:
+            return _render_error(
+                f"Problem Statement {problem_statement} has reached its maximum capacity of 10 teams. Please choose another."
+            )
+
+    try:
+        if not supabase:
+            raise HTTPException(status_code=500, detail="Database not configured")
+
+        update_data = {
+            "team_name": team_name,
+            "university": university,
+            "problem_statement": problem_statement,
+            "team_size": team_size,
+            "leader_name": m1_name,
+            "leader_email": m1_email,
+            "leader_phone": m1_phone,
+            "member2_name": m2_name if team_size >= 2 else None,
+            "member2_email": m2_email if team_size >= 2 else None,
+            "member2_phone": m2_phone if team_size >= 2 else None,
+            "member3_name": m3_name if team_size >= 3 else None,
+            "member3_email": m3_email if team_size >= 3 else None,
+            "member3_phone": m3_phone if team_size >= 3 else None,
+            "member4_name": m4_name if team_size >= 4 else None,
+            "member4_email": m4_email if team_size >= 4 else None,
+            "member4_phone": m4_phone if team_size >= 4 else None,
+        }
+
+        supabase.table("registrations").update(update_data).eq("id", registration["id"]).execute()
+
+        # Fetch updated record to show in the form
+        updated_reg = get_existing_registration(user["email"])
+        return templates.TemplateResponse(
+            "edit_registration.html",
+            {
+                "request": request,
+                "user": user,
+                "reg": updated_reg or registration,
+                "ps_counts": get_problem_statement_counts(),
+                "max_teams": 10,
+                "success": True,
+                "message": "Registration updated successfully!",
+            },
+        )
+    except Exception as e:
+        print(f"Edit registration error: {e}")
+        return _render_error("Update failed. Please try again or contact support.")
 
 
 @app.get("/health")

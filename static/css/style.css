@@ -727,23 +727,110 @@ a:hover {
     margin-bottom: 40px;
 }
 
-.ps-carousel-container {
-    position: relative;
-    width: 100%;
-}
-
-.ps-carousel-track {
-    overflow: hidden; /* CRITICAL: Hide the overflowing cards */
-    width: 100%;
-}
-
-.ps-grid {
-    display: flex; 
-    flex-wrap: nowrap; 
+/* ── PS CONTROLS (Search + Toggle) ──────────────────────── */
+.ps-controls {
+    display: flex;
+    align-items: center;
     gap: 20px;
-    padding-bottom: 20px; 
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.ps-search-wrap {
+    position: relative;
+    flex: 1 1 200px;
+    max-width: 460px;
+    min-width: 0;
+}
+
+.ps-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    pointer-events: none;
+}
+
+.ps-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px 12px 42px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.25s;
+}
+
+.ps-search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.1);
+}
+
+.ps-search::placeholder {
+    color: var(--text-dim);
+}
+
+/* Toggle switch */
+.ps-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.ps-toggle input {
+    display: none;
+}
+
+.ps-toggle-slider {
+    width: 38px;
+    height: 20px;
+    background: var(--border);
+    border-radius: 10px;
+    position: relative;
+    transition: background 0.3s;
+    flex-shrink: 0;
+}
+
+.ps-toggle-slider::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.ps-toggle input:checked + .ps-toggle-slider {
+    background: var(--accent);
+}
+
+.ps-toggle input:checked + .ps-toggle-slider::after {
+    transform: translateX(18px);
+}
+
+.ps-toggle-label {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 0.3px;
+}
+
+/* ── PS GRID ────────────────────────────────────────────── */
+.ps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .ps-card {
@@ -751,18 +838,42 @@ a:hover {
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 24px;
-    transition: border-color .25s, box-shadow 0.3s ease;
-    width: 420px; 
-    flex: 0 0 420px; /* Prevent shrinking/growing */
     display: flex;
     flex-direction: column;
     gap: 12px;
     user-select: none;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.25s, box-shadow 0.3s;
+}
+
+.ps-card--visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .ps-card:hover {
     border-color: var(--accent);
     box-shadow: 0 0 15px rgba(57, 255, 20, 0.15);
+}
+
+/* Load More */
+.ps-load-more-wrap {
+    text-align: center;
+    margin-top: 32px;
+}
+
+.ps-load-more {
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    letter-spacing: 0.5px;
+    padding: 14px 40px;
+}
+
+.ps-load-more span {
+    opacity: 0.6;
+    margin-left: 6px;
+    font-weight: 400;
 }
 
 .ps-id {
@@ -832,38 +943,12 @@ a:hover {
     left: 0;
 }
 
-.ps-nav {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.ps-nav-btn {
-    background: rgba(17, 17, 17, 0.8);
-    border: 1px solid var(--border);
-    color: var(--accent);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.ps-nav-btn:hover:not(:disabled) {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
-    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
-}
-
-.ps-nav-btn:disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
+.ps-no-results {
+    text-align: center;
+    padding: 48px 20px;
     color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.9rem;
 }
 
 /* ── STEPS ──────────────────────────────────────────────── */
@@ -1337,6 +1422,10 @@ a:hover {
     .form-container { padding: 36px 20px; }
     .form-container--wide { max-width: 100%; }
     .form-row--3 { grid-template-columns: 1fr 1fr; }
+
+    .ps-grid { grid-template-columns: repeat(2, 1fr); }
+    .ps-controls { flex-direction: column; align-items: stretch; }
+    .ps-search-wrap { max-width: 100%; flex-basis: auto; }
 
     .footer-inner {
         flex-direction: column;

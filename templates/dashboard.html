@@ -39,15 +39,52 @@
                 </div>
 
                 <div class="dash-actions">
+                    {% if registration %}
+                    <a href="/edit-registration" class="dash-card">
+                        <h3>Edit Registration</h3>
+                        <p>Update your team details, members, or problem statement.</p>
+                    </a>
+                    {% else %}
                     <a href="/register" class="dash-card">
                         <h3>Register Team</h3>
                         <p>Fill in your team details, select a problem statement, and submit your registration.</p>
                     </a>
+                    {% endif %}
                     <a href="/" class="dash-card">
                         <h3>View Event</h3>
                         <p>Check the timeline, rounds, problem statements, and pricing info.</p>
                     </a>
                 </div>
+
+                {% if registration %}
+                <div class="dash-reg-details" style="margin-top:40px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:28px 32px;">
+                    <h3 style="margin-bottom:18px; font-size:1.15rem;">Your Registration</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px 32px; font-size:0.95rem;">
+                        <div><strong>Team Name:</strong> {{ registration.team_name }}</div>
+                        <div><strong>College:</strong> {{ registration.university }}</div>
+                        <div><strong>Problem Statement:</strong> {{ registration.problem_statement }}</div>
+                        <div><strong>Team Size:</strong> {{ registration.team_size }}</div>
+                    </div>
+
+                    <h4 style="margin-top:20px; margin-bottom:10px; font-size:1rem; opacity:0.85;">Members</h4>
+                    <div style="display:grid; gap:8px; font-size:0.92rem;">
+                        <div><strong>1. {{ registration.leader_name }}</strong> &mdash; {{ registration.leader_email }} &middot; {{ registration.leader_phone }}</div>
+                        {% if registration.team_size >= 2 and registration.member2_name %}
+                        <div><strong>2. {{ registration.member2_name }}</strong> &mdash; {{ registration.member2_email }} &middot; {{ registration.member2_phone }}</div>
+                        {% endif %}
+                        {% if registration.team_size >= 3 and registration.member3_name %}
+                        <div><strong>3. {{ registration.member3_name }}</strong> &mdash; {{ registration.member3_email }} &middot; {{ registration.member3_phone }}</div>
+                        {% endif %}
+                        {% if registration.team_size >= 4 and registration.member4_name %}
+                        <div><strong>4. {{ registration.member4_name }}</strong> &mdash; {{ registration.member4_email }} &middot; {{ registration.member4_phone }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div style="margin-top:20px;">
+                        <a href="/edit-registration" class="btn btn-primary" style="font-size:0.95rem; padding:10px 28px;">Edit Details</a>
+                    </div>
+                </div>
+                {% endif %}
 
                 <div style="text-align:center; margin-top:40px;">
                     <a href="/logout" class="btn btn-ghost">Log Out</a>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register — Datathon 2026</title>
+    <title>Edit Registration — Datathon 2026</title>
     <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,18 +18,14 @@
     <!-- NAV -->
     <nav class="nav">
         <div class="nav-inner">
-            <a href="/" class="nav-logo">DATATHON<span class="accent">- 26</span></a>
+            <a href="/" class="nav-logo">DATATHON<span class="accent">- 26</span></a>
             <div class="nav-links">
                 <a href="/#timeline">Timeline</a>
                 <a href="/#structure">Rounds</a>
                 <a href="/#pricing">Pricing</a>
-                {% if user %}
                 <span class="nav-name">{{ user.name }}</span>
                 <a href="/dashboard">Dashboard</a>
                 <a href="/logout" class="nav-logout">Logout</a>
-                {% else %}
-                <a href="/login" class="nav-cta">Log In</a>
-                {% endif %}
             </div>
         </div>
     </nav>
@@ -46,43 +42,26 @@
         </div>
         {% endif %}
 
-        {% if already_registered %}
-        <section class="form-section">
-            <div class="form-container" style="text-align:center; padding:60px 32px;">
-                <h2 style="margin-bottom:12px;">You have Registered! &#127881;</h2>
-                <p class="form-subtitle" style="margin-bottom:32px;">
-                    Your team registration has been submitted successfully.<br>
-                    Complete your registration on Unstop to receive your Team ID and portal credentials.
-                </p>
-                <a href="https://unstop.com/hackathons/datathon-2026-mit-academy-of-engineering-mitaoe-pune-maharashtra-1643148" target="_blank" class="btn btn-primary" style="display:inline-block; text-decoration:none; font-size:1.1rem; padding:14px 40px;">
-                    Go to Unstop &rarr;
-                </a>
-                <div style="margin-top:24px;">
-                    <a href="/dashboard" class="back-link">&larr; Back to Dashboard</a>
-                </div>
-            </div>
-        </section>
-        {% else %}
         <section class="form-section">
             <div class="form-container form-container--wide">
                 <div class="reg-header" style="padding:0 0 20px;">
-                    <h2>Register Your Team</h2>
-                    <a href="/" class="back-link">&larr; Back</a>
+                    <h2>Edit Registration</h2>
+                    <a href="/dashboard" class="back-link">&larr; Back to Dashboard</a>
                 </div>
-                <p class="form-subtitle">Fill in your team details. Team lead will receive portal credentials.</p>
+                <p class="form-subtitle">Update your team details below. Changes are saved immediately.</p>
 
-                <form method="POST" action="/register" class="registration-form">
+                <form method="POST" action="/edit-registration" class="registration-form">
 
                     <!-- Team Info -->
                     <div class="form-section-label">Team Info</div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="team_name">Team Name</label>
-                            <input type="text" id="team_name" name="team_name" required placeholder="e.g. NeuralNinjas">
+                            <input type="text" id="team_name" name="team_name" required placeholder="e.g. NeuralNinjas" value="{{ reg.team_name or '' }}">
                         </div>
                         <div class="form-group">
                             <label for="university">College Name</label>
-                            <input type="text" id="university" name="university" required placeholder="Your college name">
+                            <input type="text" id="university" name="university" required placeholder="Your college name" value="{{ reg.university or '' }}">
                         </div>
                     </div>
 
@@ -91,10 +70,10 @@
                     <div class="form-group">
                         <label for="team_size">How many members in your team?</label>
                         <select id="team_size" name="team_size" required>
-                            <option value="1">1 — Solo</option>
-                            <option value="2">2 Members</option>
-                            <option value="3">3 Members</option>
-                            <option value="4" selected>4 Members</option>
+                            <option value="1" {% if reg.team_size == 1 %}selected{% endif %}>1 — Solo</option>
+                            <option value="2" {% if reg.team_size == 2 %}selected{% endif %}>2 Members</option>
+                            <option value="3" {% if reg.team_size == 3 %}selected{% endif %}>3 Members</option>
+                            <option value="4" {% if reg.team_size == 4 %}selected{% endif %}>4 Members</option>
                         </select>
                     </div>
 
@@ -103,7 +82,7 @@
                     <div class="form-group">
                         <label for="problem_statement">Choose a Problem Statement</label>
                         <select id="problem_statement" name="problem_statement" required>
-                            <option value="" disabled selected>-- Select a problem statement --</option>
+                            <option value="" disabled>-- Select a problem statement --</option>
                             {% set ps_list = [
                                 ("PS-01", "PS-01: Smart Traffic Management System"),
                                 ("PS-02", "PS-02: Railway Ticket Management & Predictive Analysis"),
@@ -154,8 +133,11 @@
                             ] %}
                             {% for ps_id, ps_name in ps_list %}
                                 {% set count = ps_counts.get(ps_id, 0) %}
-                                <option value="{{ ps_id }}" {% if count >= max_teams %}disabled{% endif %}>
-                                    {{ ps_name }} {% if count >= max_teams %}(FULL){% endif %}
+                                {% set is_current = (ps_id == reg.problem_statement) %}
+                                <option value="{{ ps_id }}"
+                                    {% if is_current %}selected{% endif %}
+                                    {% if count >= max_teams and not is_current %}disabled{% endif %}>
+                                    {{ ps_name }} {% if count >= max_teams and not is_current %}(FULL){% endif %}
                                 </option>
                             {% endfor %}
                         </select>
@@ -166,15 +148,15 @@
                     <div class="form-row form-row--3">
                         <div class="form-group">
                             <label for="m1_name">Full Name</label>
-                            <input type="text" id="m1_name" name="m1_name" required placeholder="Full name">
+                            <input type="text" id="m1_name" name="m1_name" required placeholder="Full name" value="{{ reg.leader_name or '' }}">
                         </div>
                         <div class="form-group">
                             <label for="m1_email">Email</label>
-                            <input type="email" id="m1_email" name="m1_email" required placeholder="email@example.com">
+                            <input type="email" id="m1_email" name="m1_email" required placeholder="email@example.com" value="{{ reg.leader_email or '' }}">
                         </div>
                         <div class="form-group">
                             <label for="m1_phone">Phone</label>
-                            <input type="tel" id="m1_phone" name="m1_phone" required placeholder="+91 98765 43210">
+                            <input type="tel" id="m1_phone" name="m1_phone" required placeholder="+91 98765 43210" value="{{ reg.leader_phone or '' }}">
                         </div>
                     </div>
 
@@ -184,15 +166,15 @@
                         <div class="form-row form-row--3">
                             <div class="form-group">
                                 <label for="m2_name">Full Name</label>
-                                <input type="text" id="m2_name" name="m2_name" placeholder="Full name">
+                                <input type="text" id="m2_name" name="m2_name" placeholder="Full name" value="{{ reg.member2_name or '' }}">
                             </div>
                             <div class="form-group">
                                 <label for="m2_email">Email</label>
-                                <input type="email" id="m2_email" name="m2_email" placeholder="email@example.com">
+                                <input type="email" id="m2_email" name="m2_email" placeholder="email@example.com" value="{{ reg.member2_email or '' }}">
                             </div>
                             <div class="form-group">
                                 <label for="m2_phone">Phone</label>
-                                <input type="tel" id="m2_phone" name="m2_phone" placeholder="+91 98765 43210">
+                                <input type="tel" id="m2_phone" name="m2_phone" placeholder="+91 98765 43210" value="{{ reg.member2_phone or '' }}">
                             </div>
                         </div>
                     </div>
@@ -203,15 +185,15 @@
                         <div class="form-row form-row--3">
                             <div class="form-group">
                                 <label for="m3_name">Full Name</label>
-                                <input type="text" id="m3_name" name="m3_name" placeholder="Full name">
+                                <input type="text" id="m3_name" name="m3_name" placeholder="Full name" value="{{ reg.member3_name or '' }}">
                             </div>
                             <div class="form-group">
                                 <label for="m3_email">Email</label>
-                                <input type="email" id="m3_email" name="m3_email" placeholder="email@example.com">
+                                <input type="email" id="m3_email" name="m3_email" placeholder="email@example.com" value="{{ reg.member3_email or '' }}">
                             </div>
                             <div class="form-group">
                                 <label for="m3_phone">Phone</label>
-                                <input type="tel" id="m3_phone" name="m3_phone" placeholder="+91 98765 43210">
+                                <input type="tel" id="m3_phone" name="m3_phone" placeholder="+91 98765 43210" value="{{ reg.member3_phone or '' }}">
                             </div>
                         </div>
                     </div>
@@ -222,44 +204,44 @@
                         <div class="form-row form-row--3">
                             <div class="form-group">
                                 <label for="m4_name">Full Name</label>
-                                <input type="text" id="m4_name" name="m4_name" placeholder="Full name">
+                                <input type="text" id="m4_name" name="m4_name" placeholder="Full name" value="{{ reg.member4_name or '' }}">
                             </div>
                             <div class="form-group">
                                 <label for="m4_email">Email</label>
-                                <input type="email" id="m4_email" name="m4_email" placeholder="email@example.com">
+                                <input type="email" id="m4_email" name="m4_email" placeholder="email@example.com" value="{{ reg.member4_email or '' }}">
                             </div>
                             <div class="form-group">
                                 <label for="m4_phone">Phone</label>
-                                <input type="tel" id="m4_phone" name="m4_phone" placeholder="+91 98765 43210">
+                                <input type="tel" id="m4_phone" name="m4_phone" placeholder="+91 98765 43210" value="{{ reg.member4_phone or '' }}">
                             </div>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-full">
-                        Submit Registration
+                        Save Changes
                     </button>
                 </form>
 
                 <div class="form-footer">
-                    <p>You'll also need to register on <a href="https://unstop.com/hackathons/datathon-2026-mit-academy-of-engineering-mitaoe-pune-maharashtra-1643148" target="_blank">Unstop</a> to receive your Team ID and portal credentials.</p>
+                    <p><a href="/dashboard">&larr; Back to Dashboard</a></p>
                 </div>
             </div>
         </section>
-        {% endif %}
 
         <footer class="footer">
-                <div class="footer-inner">
-                    <div class="footer-col">
-                        <span class="nav-logo">DATATHON<span class="accent">-26</span></span>
-                        <p>Presented by GirlScript Club MITAOE</p>
-                        <p>&copy; 2026 Datathon MITAOE. All rights reserved.</p>
-                    </div>
-                    <div class="footer-col footer-contact">
-                        <a href="mailto:contact@datathon26.com">girlscript@mitaoe.ac.in</a>
-                        <a href="tel:+91 9561236804">+91 95612 36804</a>
-                    </div>
+            <div class="footer-inner">
+                <div class="footer-col">
+                    <span class="nav-logo">DATATHON<span class="accent">-26</span></span>
+                    <p>Presented by GirlScript Club MITAOE</p>
+                    <p>&copy; 2026 Datathon MITAOE. All rights reserved.</p>
                 </div>
-            </footer>    </div>
+                <div class="footer-col footer-contact">
+                    <a href="mailto:girlscript@mitaoe.ac.in">girlscript@mitaoe.ac.in</a>
+                    <a href="tel:+91 9561236804">+91 95612 36804</a>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <script>
     (function() {
@@ -273,7 +255,6 @@
                 if (!block) continue;
                 const visible = i <= size;
                 block.style.display = visible ? '' : 'none';
-                // Toggle required on inputs inside hidden blocks
                 block.querySelectorAll('input').forEach(function(inp) {
                     if (visible) {
                         inp.setAttribute('required', '');
