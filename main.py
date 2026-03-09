@@ -320,6 +320,103 @@ async def login_submit(
         )
 
 
+# ── Forgot / Reset Password ─────────────────────────────────
+
+@app.get("/forgot-password", response_class=HTMLResponse)
+async def forgot_password_page(request: Request):
+    return templates.TemplateResponse("forgot_password.html", {"request": request})
+
+
+@app.post("/forgot-password")
+async def forgot_password_submit(request: Request, email: str = Form(...)):
+    if not supabase:
+        return templates.TemplateResponse(
+            "forgot_password.html",
+            {"request": request, "error": True, "message": "Auth service unavailable."},
+        )
+    try:
+        # Determine the redirect URL for the reset link in the email
+        origin = request.headers.get("origin") or request.base_url
+        redirect_url = f"{str(origin).rstrip('/')}/reset-password"
+        supabase.auth.reset_password_email(email, {"redirect_to": redirect_url})
+    except Exception as e:
+        # Log but don't reveal whether the email exists
+        print(f"Password reset request error: {e}")
+    # Always show success to prevent email enumeration
+    return templates.TemplateResponse(
+        "forgot_password.html",
+        {
+            "request": request,
+            "success": True,
+            "message": "If an account with that email exists, you will receive a password reset link shortly. Check your inbox (and spam folder).",
+        },
+    )
+
+
+@app.get("/reset-password", response_class=HTMLResponse)
+async def reset_password_page(request: Request):
+    return templates.TemplateResponse("reset_password.html", {"request": request})
+
+
+@app.post("/reset-password")
+async def reset_password_submit(
+    request: Request,
+    access_token: str = Form(...),
+    refresh_token: str = Form(""),
+    password: str = Form(...),
+    confirm_password: str = Form(...),
+):
+    if password != confirm_password:
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {"request": request, "error": True, "message": "Passwords do not match."},
+        )
+
+    password_pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$"
+    if not re.match(password_pattern, password):
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {
+                "request": request,
+                "error": True,
+                "message": "Password must be 8+ characters with uppercase, lowercase, number, and a special character.",
+            },
+        )
+
+    if not supabase:
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {"request": request, "error": True, "message": "Auth service unavailable."},
+        )
+
+    try:
+        # Set the session from the recovery tokens so we can update the password
+        session = supabase.auth.set_session(access_token, refresh_token)
+        # Now update the user's password
+        supabase.auth.update_user({"password": password})
+        # Sign out the recovery session
+        supabase.auth.sign_out()
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {
+                "request": request,
+                "success": True,
+                "message": "Password updated successfully! You can now log in with your new password.",
+            },
+        )
+    except Exception as e:
+        print(f"Password reset error: {e}")
+        msg = str(e)
+        if "expired" in msg.lower() or "invalid" in msg.lower():
+            msg = "This reset link has expired or is invalid. Please request a new one."
+        else:
+            msg = "Failed to reset password. Please try again or request a new reset link."
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {"request": request, "error": True, "message": msg},
+        )
+
+
 # ── Logout ──────────────────────────────────────────────────
 
 @app.get("/logout")
@@ -384,6 +481,8 @@ async def submit_registration(
                 "already_registered": True,
                 "error": True,
                 "message": "You have already registered a team.",
+                "ps_counts": get_problem_statement_counts(),
+                "max_teams": 10,
             },
         )
 
@@ -402,21 +501,22 @@ async def submit_registration(
     # Input validation
     email_re = re.compile(r"^[\w.+-]+@[\w-]+\.[\w.-]+$")
     phone_re = re.compile(r"^[\d\s\+\-()]{7,20}$")
+    ps_counts = get_problem_statement_counts()
     for name, email, phone in members:
         if not name.strip():
             return templates.TemplateResponse(
                 "register.html",
-                {"request": request, "user": user, "error": True, "message": "All member names are required."},
+                {"request": request, "user": user, "error": True, "message": "All member names are required.", "ps_counts": ps_counts, "max_teams": 10},
             )
         if not email_re.match(email):
             return templates.TemplateResponse(
                 "register.html",
-                {"request": request, "user": user, "error": True, "message": f"Invalid email: {email}"},
+                {"request": request, "user": user, "error": True, "message": f"Invalid email: {email}", "ps_counts": ps_counts, "max_teams": 10},
             )
         if not phone_re.match(phone):
             return templates.TemplateResponse(
                 "register.html",
-                {"request": request, "user": user, "error": True, "message": f"Invalid phone number for {name}."},
+                {"request": request, "user": user, "error": True, "message": f"Invalid phone number for {name}.", "ps_counts": ps_counts, "max_teams": 10},
             )
 
     try:
@@ -424,7 +524,7 @@ async def submit_registration(
             raise HTTPException(status_code=500, detail="Database not configured")
 
         # Enforce 10 teams per PS limit (First-come, first-served)
-        ps_counts = get_problem_statement_counts()
+        ps_counts = ps_counts or get_problem_statement_counts()
         if ps_counts.get(problem_statement, 0) >= 10:
             return templates.TemplateResponse(
                 "register.html",
@@ -468,7 +568,9 @@ async def submit_registration(
                 "user": user,
                 "already_registered": True,
                 "success": True,
-                "message": "Registration successful! Team lead will receive portal credentials shortly."
+                "message": "Registration successful!.",
+                "ps_counts": ps_counts,
+                "max_teams": 10,
             }
         )
 
@@ -481,7 +583,9 @@ async def submit_registration(
                 "request": request,
                 "user": user,
                 "error": True,
-                "message": "Registration failed. Please try again or contact support."
+                "message": "Registration failed. Please try again or contact support.",
+                "ps_counts": ps_counts,
+                "max_teams": 10,
             }
         )
 
